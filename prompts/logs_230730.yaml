@@ -1,0 +1,128 @@
+prompts:
+
+  - name: field_of_flowers_230730.png
+    reference: https://replicate.com/p/ckscvclbivgjl5cprho7lbgwhm
+    prompt: a stunning watercolor painting on canvas of california poppy flowers, in the style of Claude Monet,  Giverny, impressionism, impressionistic landscapes, pastel colors, impressionistic portraits, exaggerated blurry brushstrokes, dramatic lighting :0.8
+    negative_prompt: ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face
+    sampler: Euler
+    sampling_steps: 100
+    height: 1024 
+    width: 1024
+    cfg_scale: 7
+    batch_count: 1
+    batch_size: 1
+    seed: 1646781553
+    status: replicated
+    notes:
+     - 2048x2048 hit OOM on T4.
+
+  - name: blue_and_cream_roses_230730.png
+    reference: https://creator.nightcafe.studio/creation/sBrlBEKFwi6SLRgnYYST
+    prompt: Blue rose, solitary, in full bloom, slightly luminescent, with stalk, against muted deep blue background :1.0 AND abstract art, deep color, hyperdetailed, ethereal, fantastical, 8k resolution trending on Artstation Unreal Engine 5 :0.9
+    sampler: LMS Karras 
+    height: 1024
+    width: 1024
+    status: not_replicated
+
+  - name: panda_nasa_patch_230730.png
+    reference: NASA patch with a red panda astronaut floating in space.
+    prompt: NASA patch with a red panda astronaut floating in space.
+    negative_prompt: blurry, low quality, cartoon, 3d
+    sampler: DPM++ SDE Karras
+    cfg_scale: 8
+    seed: 2057016566
+    height: 1024
+    width: 1024
+    steps: 40
+
+  - name: fozziethebeat_anime_logo_230805.png
+    reference: https://creator.nightcafe.studio/creation/EmcYMBihoggCX4o85Uib
+    prompt: fozzie the beat :1.0 AND by artist "anime", Anime Key Visual, Japanese Manga, Pixiv, Zerochan, Anime art, Fantia :0.9
+    negative_prompt: 
+    sampler: DPM++ 2M Karras
+    cfg_scale: 7
+    seed: 780532584 
+    height: 1024
+    width: 1024
+    steps: 50
+    model_hash: e6bb9ea85b
+
+  - name: mandaloreo_230805_1.png
+    prompt: The bounty hunter named Mandaloreo standing in the desert, cute, small, round oreo cookie body shape, friendly
+    negative_prompt: blurry background
+    sampler: DPM++ 2M Karras
+    cfg_scale: 7
+    seed: 4027557793
+    height: 1024
+    width: 1024
+    steps: 50
+    model_hash: e6bb9ea85b
+
+  - name: mandaloreo_230805_2.png
+    prompt: The bounty hunter named Mandaloreo standing in the desert, cute, small, soft oreo cookie body shape, friendly, oreo humanoid species
+    negative_prompt: blurry background
+    sampler: DPM++ 2M Karras
+    cfg_scale: 7
+    seed: 1165591807
+    height: 1024
+    width: 1024
+    steps: 50
+    model_hash: e6bb9ea85b
+
+  - name: mandaloreo_230805_3.png
+    prompt: The bounty hunter named Mandaloreo standing in the desert, cute, small, soft oreo cookie body shape, friendly, oreo humanoid species
+    negative_prompt: blurry background, mean
+    sampler: DPM++ 2M Karras
+    cfg_scale: 7
+    seed: 2886686043
+    height: 1024
+    width: 1024
+    steps: 50
+    model_hash: e6bb9ea85b
+
+  - name: asakusakids_230805_1.png
+    prompt: asakusa kids 1989 :1.0 AND by artist "anime", Anime Key Visual, Japanese Manga, Pixiv, Zerochan, Anime art, Fantia :0.9
+    negative_prompt: distorted faces, distorted hands, creepy faces, incomplete objects
+    sampler: DPM++ SDE Karras
+    cfg_scale: 2.9 
+    seed: 454380878
+    height: 1024
+    width: 1024
+    steps: 150 
+    model_hash: e6bb9ea85b
+
+  - name: paperprincess_230805_1.png
+    prompt: Portrait of a Paper Princess 
+    negative_prompt: 
+    reference: https://creator.nightcafe.studio/creation/6tQgsc6Om2Wmbtuhd3yh
+    sampler: DPM++ 2M Karras
+    cfg_scale: 7.0
+    seed: 3369058934
+    height: 1024
+    width: 1024
+    steps: 50
+    model_hash: e6bb9ea85b
+
+  - name: paperprincess_230805_2.png
+    prompt: Portrait of a Paper Princess, colorful flowers
+    negative_prompt: 
+    reference: https://creator.nightcafe.studio/creation/6tQgsc6Om2Wmbtuhd3yh
+    sampler: DPM++ 2M SDE
+    cfg_scale: 6.0
+    seed: 4284647558
+    height: 1024
+    width: 1024
+    steps: 75
+    model_hash: e6bb9ea85b
+
+  - name: paperprincess_230805_3.png
+    prompt: Portrait of a Paper Princess, colorful flowers, hands on hips
+    negative_prompt: distorted hands, distorted face
+    reference: https://creator.nightcafe.studio/creation/6tQgsc6Om2Wmbtuhd3yh
+    sampler: DPM++ 2M SDE
+    cfg_scale: 7.0
+    seed: 4284647558
+    height: 1024
+    width: 1024
+    steps: 75
+    model_hash: e6bb9ea85b

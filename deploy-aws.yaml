@@ -1,0 +1,21 @@
+name: stable-diffusion-webui 
+resources:
+  accelerators: A10G:1
+  cloud: aws
+  region: ap-northeast-1
+  memory: 32
+
+envs:
+  REPO: stabilityai/stable-diffusion-xl-base-1.0
+  MODEL: sd_xl_base_1.0_0.9vae.safetensors
+
+setup: |
+  set -e
+  rm -rf stable-diffusion-webui
+  git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+  wget -N -O stable-diffusion-webui/models/Stable-diffusion/${MODEL} https://huggingface.co/${REPO}/resolve/main/${MODEL}
+
+run: |
+  set -e
+  cd stable-diffusion-webui
+  ./webui.sh --listen
