@@ -1,0 +1,37 @@
+name: stable-diffusion-comfyui
+resources:
+  accelerators: A10G:1
+  cloud: aws
+  region: ap-northeast-1
+  memory: 32
+
+file_mounts:
+  /stablesoaps:
+    source: s3://stablesoaps
+    mode: COPY
+  /stablesoaps-rw:
+    source: s3://stablesoaps
+    mode: MOUNT
+
+workdir: ./configs
+
+setup: |
+  set -e
+  [ ! -d 'ComfyUI' ] && git clone https://github.com/comfyanonymous/ComfyUI.git
+  mv extra_model_paths.yaml ComfyUI/
+  cd ComfyUI
+  conda create -n sd python=3.9 -y
+  conda activate sd
+  pip install torchvision
+  pip install -r requirements.txt
+
+
+run: |
+  set -e
+  conda activate sd
+  cd ComfyUI
+  mkdir -p /stablesoaps-rw/comfyui
+  python main.py \
+    --port 7860 \
+    --listen 0.0.0.0 \
+    --output-directory /stablesoaps-rw/comfyui

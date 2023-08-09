@@ -126,3 +126,36 @@ prompts:
     width: 1024
     steps: 75
     model_hash: e6bb9ea85b
+
+  - name: lavendersoap_230806_1.png
+    prompt: field of lavender flowers, soap packaging, geometric pattern, soft colors
+    negative_prompt: bad focus, complex background
+    sampler: DPM++ 2M SDE Karras
+    cfg_scale: 10.0
+    seed: 2210976537
+    height: 1024
+    width: 1024
+    steps: 55 
+    model_hash: e6bb9ea85b
+
+  - name: osmanthussoap_230806_1.png
+    prompt: field of osmanthus flowers, soft colors, geometric pattern, packaging
+    negative_prompt: bad focus, complex background
+    sampler: DPM++ 2M SDE Karras
+    cfg_scale: 7.0
+    seed: 4236893519
+    height: 1024
+    width: 1024
+    steps: 60
+    model_hash: e6bb9ea85b
+
+  - name: rosesoap_230806_1.png
+    prompt: field of rose flowers, soft colors, pattern, geometric, packaging
+    negative_prompt: bad focus, complex background
+    sampler: DPM++ 2M SDE Karras
+    cfg_scale: 6.0
+    seed: 3754698731
+    height: 1024
+    width: 1024
+    steps: 70
+    model_hash: e6bb9ea85b

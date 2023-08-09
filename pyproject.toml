@@ -1,0 +1,20 @@
+[project]
+name = "stablesoaps"
+description = "Stable Diffusion setup for Stable Soaps"
+version = "0.0.1"
+authors = [
+    {name = "fozziethebeat"},
+]
+requires-python = ">=3.8"
+classifiers = [
+    "Framework :: Tranformers",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "pydantic",
+    "pyyaml",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,10 @@
+.DS_Store
+
+models/
+results/
+
+**/*.swp
+
+__pycache__
+*/__pycache__
+**/*.egg-info

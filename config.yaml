@@ -1,0 +1,137 @@
+models:
+  - name: sdxl_1.0
+    checkpoints:
+      - repo: stabilityai/stable-diffusion-xl-base-1.0
+        model: sd_xl_base_1.0_0.9vae.safetensors
+      - repo: stabilityai/stable-diffusion-xl-refiner-1.0
+        model: sd_xl_refiner_1.0_0.9vae.safetensors
+    adapters:
+      - name: by-makoto-shinkai
+        url: https://civitai.com/api/download/models/131467
+        info: https://civitai.com/models/120855/makoto-shinkai-style-sdxl-10-lora
+        keywords:
+          - by Makoto Shinkai
+        type: lora
+      - name: tangbohu-style
+        url: https://civitai.com/api/download/models/133732
+        info: https://civitai.com/models/122748/tang-bohus-painting-style-lora-sdxl-xl
+        keywords:
+          - tangbohu style
+        type: lora
+      - name: bloodstainedai
+        url: https://civitai.com/api/download/models/129030
+        info: https://civitai.com/models/118889/bloodstained-xl
+        keywords:
+          - Bloodstainedai
+        type: lycoris
+      - name: moebius
+        url: https://civitai.com/api/download/models/134370
+        info: https://civitai.com/models/123274/moebius-sdxl-jean-giraud
+        keywords:
+          - moebzxl
+          - moebius
+          - Jean Giraud
+        type: lycoris
+      - name: pixel-art-xl
+        url: https://civitai.com/api/download/models/130580 
+        info: https://civitai.com/models/120096/pixel-art-xl
+        type: lora
+      - name: treebark
+        url: https://civitai.com/api/download/models/128789
+        info: https://civitai.com/models/68423?modelVersionId=128789
+        keywords:
+          - treebark
+          - lichen
+          - texture
+        type: lora
+      - name: microhouse
+        url: https://civitai.com/api/download/models/129054
+        info: https://civitai.com/models/118910/paseer-sdxl-microhouse
+        keywords:
+          - microhouse
+          - house
+        type: lora
+      - name: voxel-style
+        url: https://civitai.com/api/download/models/128609
+        info: https://civitai.com/models/118536/voxel-xl
+        keywords:
+          - voxel style
+        type: lora
+      - name: watermeloncarving
+        url: https://civitai.com/api/download/models/131055
+        info: https://civitai.com/models/120517/watermeloncarvingsdxl
+        keywords:
+          - watermeloncarving
+        type: lora
+      - name: maxmonolith
+        url: https://civitai.com/api/download/models/129117
+        info: https://civitai.com/models/118965/monolith-sd-xl-10
+        keywords:
+          - maxmonolith
+        type: lora
+      - name: neonpunk-ai
+        url: https://civitai.com/api/download/models/129048
+        info: https://civitai.com/models/118904/neonpunk-xl
+        keywords:
+          - npai
+        type: lora
+      - name: yanzhi-paper-quilling
+        url: https://civitai.com/api/download/models/135020
+        info: https://civitai.com/models/121009/papercut-sdxl-paper-quilling
+        keywords:
+          - yanzhi
+          - paper quilling
+        type: lora
+      - name: embroidery-style
+        url: https://civitai.com/api/download/models/133177
+        info: https://civitai.com/models/122308/embroidery-style-sdxl
+        type: lora
+      - name: picture-story-book
+        url: https://civitai.com/api/download/models/129548
+        info: https://civitai.com/models/119288/picture-story-book-for-children-xl-xl
+        type: lora
+      - name: jsmin-style
+        url: https://civitai.com/api/download/models/128978
+        info: https://civitai.com/models/118845/jasmine-art-style-sdxl-10
+        keywords:
+          - jsmn style
+        type: lora
+      - name: ghibli
+        url: https://civitai.com/api/download/models/131471
+        info: https://civitai.com/models/120860/sdxl10-ghibli-style-v1
+        keywords:
+          - ghibli
+        type: lora
+      - name: guofeng-chinese-style
+        url: https://civitai.com/api/download/models/130709
+        type: lora
+      - name: pastelvectorai
+        url: https://civitai.com/api/download/models/134165
+        info: https://civitai.com/models/123119/pastel-vector-xl
+        keywords:
+          - PastelVectorAI
+        type: lycoris
+      - name: logoredaf
+        url: https://civitai.com/api/download/models/136078
+        info: https://civitai.com/models/124609
+        keywords:
+          - logoredaf
+        type: lora
+      - name: samdoesarts
+        url: https://civitai.com/api/download/models/132685
+        info: https://civitai.com/models/118739
+        keywords:
+          - samdoesarts
+          - by samdoesarts
+        type: lora
+      - name: papercut
+        url: https://civitai.com/api/download/models/133503
+        info: https://civitai.com/models/122567
+        keywords:
+          - papercut
+        type: lora
+    rejected_adapters:
+      - name: relaxing-background-style
+        url: https://civitai.com/api/download/models/130622 
+        info: https://civitai.com/models/120133/relaxing-background-style
+        type: lora
