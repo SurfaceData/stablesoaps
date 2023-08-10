@@ -13,16 +13,19 @@ file_mounts:
     source: s3://stablesoaps
     mode: MOUNT
 
-workdir: ./configs
+workdir: ./
 
 setup: |
   set -e
-  [ ! -d 'ComfyUI' ] && git clone https://github.com/comfyanonymous/ComfyUI.git
-  mv extra_model_paths.yaml ComfyUI/
-  cd ComfyUI
   conda create -n sd python=3.9 -y
   conda activate sd
   pip install torchvision
+  pip install -r nodes/requirements.txt
+  [ ! -d 'ComfyUI' ] && git clone https://github.com/comfyanonymous/ComfyUI.git
+  mv configs/extra_model_paths.yaml ComfyUI/
+  rm -rf ComfyUI/custom_nodes/stablesoaps
+  cp -r nodes ComfyUI/custom_nodes/stablesoaps
+  cd ComfyUI
   pip install -r requirements.txt
 
 
