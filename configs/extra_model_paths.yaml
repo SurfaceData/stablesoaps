@@ -1,4 +1,0 @@
-aws:
-  base_path: /stablesoaps
-  checkpoints: models/checkpoints
-  loras: models/loras

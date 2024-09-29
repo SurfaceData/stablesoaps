@@ -1,18 +1,17 @@
 [project]
 name = "stablesoaps"
-description = "Stable Diffusion setup for Stable Soaps"
+description = "Random code and notebooks for Stable Soaps"
 version = "0.0.1"
 authors = [
     {name = "fozziethebeat"},
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 classifiers = [
-    "Framework :: Tranformers",
     "Programming Language :: Python :: 3",
 ]
 dependencies = [
-    "pydantic",
-    "pyyaml",
+    "anthropic",
+    "jupyter",
 ]
 
 [build-system]
