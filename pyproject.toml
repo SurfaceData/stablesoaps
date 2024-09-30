@@ -11,7 +11,13 @@ classifiers = [
 ]
 dependencies = [
     "anthropic",
+    "bentoml",
+    "jinja2",
     "jupyter",
+    "litellm",
+    "pydantic",
+    "python-dotenv",
+    "ruff",
 ]
 
 [build-system]
