@@ -1,0 +1,40 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // directUrl = env("MIGRATION_DB_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
+model Ingredient {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  slug               String               @unique
+  // Values:
+  //  - base_oil
+  //  - essential_oil
+  //  - lye
+  //  - water
+  type               String
+
+  IngredientPurchase IngredientPurchase[]
+}
+
+model IngredientPurchase {
+  id              Int            @id @default(autoincrement())
+  ingredientId    Int
+  ingredient      Ingredient     @relation(fields: [ingredientId], references: [id])
+  quantity_l      Float
+  price           Float
+
+  PurchaseOrder   PurchaseOrder? @relation(fields: [purchaseOrderId], references: [id])
+  purchaseOrderId Int?
+}
+
+model PurchaseOrder {
+  id    Int                  @id @default(autoincrement())
+  items IngredientPurchase[]
+}
