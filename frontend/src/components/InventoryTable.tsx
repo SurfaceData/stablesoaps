@@ -22,61 +22,60 @@ import {
 } from "@/components/ui/table";
 
 const QUERY = gql`
-  query Ingredients {
-    ingredients {
+  query InventoryItems {
+    inventoryItems {
       id
-      name
-      slug
-      type
-      measurement
+      ingredient {
+        name
+        type
+        measurement
+      }
+      quantity
     }
   }
 `;
 
-export async function IngredientsTable() {
+export async function InventoryTable() {
   try {
     const { data, error } = await getClient().query({ query: QUERY });
     return (
       <Card x-chunk="dashboard-05-chunk-3">
         <CardHeader className="px-7">
-          <CardTitle>Ingredients</CardTitle>
-          <CardDescription className="flex justify-between">
-            Soap Making Ingredients
-            <Link href="/ingredient">
-              <Button>New Ingredient</Button>
-            </Link>
-          </CardDescription>
+          <CardTitle>Inventory</CardTitle>
+          <CardDescription className="flex justify-between"></CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>ID</TableHead>
-                <TableHead className="hidden sm:table-cell">Name</TableHead>
-                <TableHead className="hidden sm:table-cell">Type</TableHead>
-                <TableHead className="hidden md:table-cell">
-                  Measurement
+                <TableHead className="hidden sm:table-cell">
+                  Ingredient Name
                 </TableHead>
+                <TableHead className="hidden sm:table-cell">
+                  Ingredient Type
+                </TableHead>
+                <TableHead className="hidden md:table-cell">Quantity</TableHead>
                 <TableHead className="hidden md:table-cell">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.ingredients.map((ingredient) => (
-                <TableRow key={ingredient.id}>
+              {data.inventoryItems.map((item) => (
+                <TableRow key={item.id}>
                   <TableCell>
-                    <div className="font-medium">{ingredient.id}</div>
+                    <div className="font-medium">{item.id}</div>
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
-                    {ingredient.name}
+                    {item.ingredient.name}
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
-                    {ingredient.type}
+                    {item.ingredient.type}
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
-                    {ingredient.measurement}
+                    {item.quantity} {item.ingredient.measurement}
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
-                    <Link href={`/ingredient/${ingredient.id}`}>Edit</Link>
+                    <Link href={`/inventory/${item.id}`}>Edit</Link>
                   </TableCell>
                 </TableRow>
               ))}

@@ -1,4 +1,3 @@
-import { EditIngredientForm } from "@/components/EditIngredientForm";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,8 +6,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { PurchaseOrderForm } from "@/components/PurchaseOrderForm";
 
-export default function IngredientPage() {
+export default function NewPurchaseOrderPage() {
   return (
     <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-4">
       <Breadcrumb>
@@ -18,12 +18,11 @@ export default function IngredientPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>New Ingredient</BreadcrumbPage>
+            <BreadcrumbPage>New Purchase Order</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-
-      <EditIngredientForm />
+      <PurchaseOrderForm />
     </div>
   );
 }

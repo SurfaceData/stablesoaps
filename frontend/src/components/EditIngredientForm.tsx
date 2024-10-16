@@ -126,6 +126,34 @@ export function EditIngredientForm({ ingredient }) {
                       </FormItem>
                     )}
                   />
+
+                  <FormField
+                    control={form.control}
+                    name="measurement"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="grid gap-3">
+                          <Label htmlFor="measurement">Measurement</Label>
+                          <Select
+                            name="type"
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="millilieters">
+                                Milliliters
+                              </SelectItem>
+                              <SelectItem value="grams">Grams</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+
                   <Button type="submit">Update</Button>
                 </div>
               </form>

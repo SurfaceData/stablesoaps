@@ -19,6 +19,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { IngredientsTable } from "@/components/IngredientsTable";
+import { InventoryTable } from "@/components/InventoryTable";
+import { PurchaseOrderTable } from "@/components/PurchaseOrderTable";
 
 export default function Home() {
   return (
@@ -63,8 +65,12 @@ export default function Home() {
             </CardFooter>
           </Card>
         </TabsContent>
-        <TabsContent value="inventory"></TabsContent>
-        <TabsContent value="purchase_orders"></TabsContent>
+        <TabsContent value="inventory">
+          <InventoryTable />
+        </TabsContent>
+        <TabsContent value="purchase_orders">
+          <PurchaseOrderTable />
+        </TabsContent>
       </Tabs>
     </div>
   );

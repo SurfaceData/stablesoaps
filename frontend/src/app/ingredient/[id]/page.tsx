@@ -17,6 +17,7 @@ const QUERY = gql`
       name
       slug
       type
+      measurement
     }
   }
 `;
