@@ -1,6 +1,5 @@
 import { gql } from "@apollo/client";
 import { getClient } from "@/graphql/ApolloClient";
-import { EditIngredientForm } from "@/components/EditIngredientForm";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,15 +8,20 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { PurchaseOrderForm } from "@/components/PurchaseOrderForm";
 
 const QUERY = gql`
-  query Ingredient($id: Int!) {
-    ingredient(id: $id) {
+  query PurchaseOrder($id: Int!) {
+    purchaseOrder(id: $id) {
       id
-      name
-      slug
-      type
-      measurement
+      status
+      total
+      supplierName
+      items {
+        ingredientId
+        quantity
+        price
+      }
     }
   }
 `;
@@ -36,11 +40,11 @@ export default async function IngredientEditPage({ params }) {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Edit Ingredient</BreadcrumbPage>
+            <BreadcrumbPage>Edit Purchase Order</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <EditIngredientForm ingredient={data?.ingredient} />
+      <PurchaseOrderForm order={data?.purchaseOrder} />
     </div>
   );
 }

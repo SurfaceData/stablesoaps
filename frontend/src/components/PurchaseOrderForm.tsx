@@ -3,7 +3,7 @@
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
-import { gql, useQuery, useMutation } from "@apollo/client";
+import { gql, useSuspenseQuery, useQuery, useMutation } from "@apollo/client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -62,6 +62,13 @@ const ADD_MUTATION = gql`
     }
   }
 `;
+const UPDATE_MUTATION = gql`
+  mutation UpdatePurchaseOrder($id: Int!, $input: PurchaseOrderInput!) {
+    updatePurchaseOrder(id: $id, input: $input) {
+      id
+    }
+  }
+`;
 
 interface PurchaseOrderItem {
   ingredientId: number;
@@ -84,8 +91,14 @@ export function PurchaseOrderForm({ order }) {
     name: "items",
     control: form.control,
   });
-  const { data } = useQuery(QUERY);
+  const { data } = useSuspenseQuery(QUERY);
+  const ingredients = data.ingredients;
   const [addOrder, { loading, error }] = useMutation(ADD_MUTATION, {
+    onCompleted: () => {
+      router.push("/");
+    },
+  });
+  const [updateOrder, _] = useMutation(UPDATE_MUTATION, {
     onCompleted: () => {
       router.push("/");
     },
@@ -100,6 +113,13 @@ export function PurchaseOrderForm({ order }) {
       });
       return;
     }
+    const { id, ...input } = data;
+    updateOrder({
+      variables: {
+        id: order.id,
+        input,
+      },
+    });
   };
 
   return (
@@ -202,7 +222,7 @@ export function PurchaseOrderForm({ order }) {
                                       )}
                                     >
                                       {field.value
-                                        ? data.ingredients.find(
+                                        ? ingredients.find(
                                             (i) => i.id === field.value
                                           )?.name
                                         : "Select Ingredient"}
@@ -221,7 +241,7 @@ export function PurchaseOrderForm({ order }) {
                                         No ingredients found.
                                       </CommandEmpty>
                                       <CommandGroup>
-                                        {data.ingredients.map((item) => (
+                                        {ingredients.map((item) => (
                                           <CommandItem
                                             value={item.id}
                                             key={item.id}

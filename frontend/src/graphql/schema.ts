@@ -69,6 +69,7 @@ export const typeDefs = gql`
     inventoryItem(id: Int!): InventoryItem
     inventoryItems: [InventoryItem!]!
     purchaseOrders: [PurchaseOrder!]!
+    purchaseOrder(id: Int!): PurchaseOrder
   }
 
   type Mutation {
@@ -76,6 +77,7 @@ export const typeDefs = gql`
     addPurchaseOrder(input: PurchaseOrderInput!): PurchaseOrder!
     updateIngredient(id: Int!, input: IngredientInput!): Ingredient!
     updateInventoryItem(id: Int!, input: InventoryItemInput!): InventoryItem!
+    updatePurchaseOrder(id: Int!, input: PurchaseOrderInput!): PurchaseOrder!
   }
 `;
 
@@ -109,8 +111,8 @@ export const resolvers = {
       ];
     },
 
-    purchaseOrders: async () => {
-      const r = await prisma.purchaseOrder.findMany({
+    purchaseOrders: () => {
+      return prisma.purchaseOrder.findMany({
         select: {
           id: true,
           status: true,
@@ -121,8 +123,21 @@ export const resolvers = {
           items: true,
         },
       });
-      console.log(r[0].items);
-      return r;
+    },
+
+    purchaseOrder: (a, { id }) => {
+      return prisma.purchaseOrder.findUnique({
+        where: { id },
+        select: {
+          id: true,
+          status: true,
+          total: true,
+          supplierName: true,
+          createDate: true,
+          receiveDate: true,
+          items: true,
+        },
+      });
     },
   },
 
@@ -151,6 +166,7 @@ export const resolvers = {
             },
           });
         }
+        orderData.receiveDate = new Date();
       }
       return prisma.purchaseOrder.create({
         data: {
@@ -168,6 +184,46 @@ export const resolvers = {
       return prisma.ingredient.update({
         where: { id },
         data: input,
+      });
+    },
+
+    updatePurchaseOrder: async (a, { id, input }) => {
+      const { items, status, ...orderData } = input;
+      if (status === "completed") {
+        const currentPO = await prisma.purchaseOrder.findUnique({
+          where: { id },
+          select: {
+            status: true,
+            items: true,
+          },
+        });
+        if (currentPO.status !== "completed") {
+          // Create or Update the inventory entry for each item.
+          for (const item of currentPO.items) {
+            await prisma.inventoryItem.upsert({
+              where: { ingredientId: item.ingredientId },
+              create: {
+                ingredientId: item.ingredientId,
+                quantity: item.quantity,
+              },
+              update: {
+                quantity: {
+                  increment: item.quantity,
+                },
+              },
+            });
+          }
+          orderData.receiveDate = new Date();
+        }
+      }
+      return prisma.purchaseOrder.update({
+        where: {
+          id,
+        },
+        data: {
+          ...orderData,
+          status,
+        },
       });
     },
   },

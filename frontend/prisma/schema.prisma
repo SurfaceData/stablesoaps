@@ -14,14 +14,14 @@ model Ingredient {
   name        String
   slug        String @unique
   // Values:
-  //  - base_oil
-  //  - essential_oil
-  //  - lye
-  //  - water
+  // - base_oil
+  // - essential_oil
+  // - lye
+  // - water
   type        String
   // Values:
-  //   grams
-  //   milliliters
+  // - grams
+  // - milliliters
   measurement String
 
   IngredientPurchase IngredientPurchase[]
@@ -48,6 +48,10 @@ model IngredientPurchase {
 
 model PurchaseOrder {
   id           Int                  @id @default(autoincrement())
+  // Values:
+  // - created
+  // - shipped
+  // - completed
   status       String
   total        Float
   createDate   DateTime

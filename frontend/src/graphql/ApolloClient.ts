@@ -42,7 +42,7 @@ const appLink = from([errorLink, httpLink]);
 
 export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
   return new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({ addTypename: false }),
     link: authLink.concat(appLink),
   });
 });

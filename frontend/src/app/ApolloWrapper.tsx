@@ -14,7 +14,7 @@ function makeClient() {
   });
 
   return new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({ addTypename: false }),
     link: httpLink,
   });
 }

@@ -73,7 +73,7 @@ async function devSeed() {
 
     await db.purchaseOrder.create({
       data: {
-        status: "complete",
+        status: "completed",
         createDate: "2024-10-19T08:00:00.000+09:00",
         receiveDate: "2024-12-19T08:00:00.000+09:00",
         total: 30.0,
