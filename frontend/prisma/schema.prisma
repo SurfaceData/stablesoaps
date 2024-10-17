@@ -26,6 +26,10 @@ model Ingredient {
 
   IngredientPurchase IngredientPurchase[]
   InventoryItem      InventoryItem[]
+  RecipeWaterItem    RecipeWaterItem[]
+  RecipeLyeItem      RecipeLyeItem[]
+  RecipeBaseItem     RecipeBaseItem[]
+  RecipeScentItem    RecipeScentItem[]
 }
 
 model InventoryItem {
@@ -58,4 +62,52 @@ model PurchaseOrder {
   receiveDate  DateTime?
   supplierName String
   items        IngredientPurchase[]
+}
+
+model RecipeWaterItem {
+  id           Int        @id @default(autoincrement())
+  ingredientId Int
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  quantity     Float
+  Recipe       Recipe[]
+}
+
+model RecipeLyeItem {
+  id           Int        @id @default(autoincrement())
+  ingredientId Int
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  quantity     Float
+  Recipe       Recipe[]
+}
+
+model RecipeBaseItem {
+  id           Int        @id @default(autoincrement())
+  ingredientId Int
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  quantity     Float
+  Recipe       Recipe?    @relation(fields: [recipeId], references: [id])
+  recipeId     Int?
+}
+
+model RecipeScentItem {
+  id           Int        @id @default(autoincrement())
+  ingredientId Int
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  quantity     Float
+  Recipe       Recipe?    @relation(fields: [recipeId], references: [id])
+  recipeId     Int?
+}
+
+model Recipe {
+  id         Int             @id @default(autoincrement())
+  name       String
+  slug       String          @unique
+  originName String
+  water      RecipeWaterItem @relation(fields: [waterId], references: [id])
+  waterId    Int
+  lye        RecipeLyeItem   @relation(fields: [lyeId], references: [id])
+  lyeId      Int
+
+  baseOils      RecipeBaseItem[]
+  essentialOils RecipeScentItem[]
 }

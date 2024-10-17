@@ -1,5 +1,6 @@
 import { DateTimeResolver } from "graphql-scalars";
 import { gql } from "graphql-tag";
+import slug from "slug";
 
 import { prisma } from "@/lib/prisma";
 
@@ -39,6 +40,24 @@ export const typeDefs = gql`
     items: [IngredientPurchase!]!
   }
 
+  type RecipeItem {
+    id: Int!
+    ingredientId: Int!
+    ingredient: Ingredient!
+    quantity: Float!
+  }
+
+  type Recipe {
+    id: Int!
+    name: String!
+    slug: String!
+    originName: String!
+    water: RecipeItem!
+    lye: RecipeItem!
+    essentialOils: [RecipeItem!]!
+    baseOils: [RecipeItem!]!
+  }
+
   input IngredientInput {
     name: String!
     slug: String!
@@ -63,6 +82,20 @@ export const typeDefs = gql`
     items: [IngredientPurchaseInput!]!
   }
 
+  input RecipeItemInput {
+    ingredientId: Int!
+    quantity: Float!
+  }
+
+  input RecipeInput {
+    name: String!
+    originName: String!
+    water: RecipeItemInput!
+    lye: RecipeItemInput!
+    essentialOils: [RecipeItemInput!]!
+    baseOils: [RecipeItemInput!]!
+  }
+
   type Query {
     ingredients: [Ingredient!]!
     ingredient(id: Int!): Ingredient
@@ -70,11 +103,14 @@ export const typeDefs = gql`
     inventoryItems: [InventoryItem!]!
     purchaseOrders: [PurchaseOrder!]!
     purchaseOrder(id: Int!): PurchaseOrder
+    recipes: [Recipe!]!
+    recipe(id: Int!): Recipe
   }
 
   type Mutation {
     addIngredient(input: IngredientInput!): Ingredient!
     addPurchaseOrder(input: PurchaseOrderInput!): PurchaseOrder!
+    addRecipe(input: RecipeInput!): Recipe!
     updateIngredient(id: Int!, input: IngredientInput!): Ingredient!
     updateInventoryItem(id: Int!, input: InventoryItemInput!): InventoryItem!
     updatePurchaseOrder(id: Int!, input: PurchaseOrderInput!): PurchaseOrder!
@@ -139,6 +175,39 @@ export const resolvers = {
         },
       });
     },
+
+    recipe: (a, { id }) => {
+      return prisma.recipe.findUnique({
+        where: { id },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          originName: true,
+          lye: true,
+          water: true,
+          baseOils: true,
+          essentialOils: true,
+        },
+      });
+    },
+
+    recipes: () => {
+      return prisma.recipe.findMany({
+        /*
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          originName: true,
+          lye: true,
+          water: true,
+          baseOils: true,
+          essentialOils: true,
+        },
+       */
+      });
+    },
   },
 
   Mutation: {
@@ -176,6 +245,40 @@ export const resolvers = {
           items: {
             create: items,
           },
+        },
+      });
+    },
+
+    addRecipe: (a, { input }) => {
+      const { water, lye, baseOils, essentialOils, ...data } = input;
+      console.log(water);
+      console.log(lye);
+      return prisma.recipe.create({
+        data: {
+          ...data,
+          slug: slug(data.name),
+          water: {
+            create: water,
+          },
+          lye: {
+            create: lye,
+          },
+          baseOils: {
+            create: baseOils,
+          },
+          essentialOils: {
+            create: essentialOils,
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          originName: true,
+          lye: true,
+          water: true,
+          baseOils: true,
+          essentialOils: true,
         },
       });
     },
@@ -229,6 +332,7 @@ export const resolvers = {
   },
 
   DateTime: DateTimeResolver,
+
   IngredientPurchase: {
     ingredient: (ip) => {
       return prisma.ingredientPurchase
@@ -245,6 +349,31 @@ export const resolvers = {
       return prisma.inventoryItem
         .findUnique({ where: { id: inventoryItem.id } })
         .ingredient();
+    },
+  },
+
+  Recipe: {
+    water: (recipe) => {
+      return prisma.recipe.findUnique({ where: { id: recipe.id } }).water({
+        select: { ingredient: true, ingredientId: true, quantity: true },
+      });
+    },
+    lye: (recipe) => {
+      return prisma.recipe.findUnique({ where: { id: recipe.id } }).lye({
+        select: { ingredient: true, ingredientId: true, quantity: true },
+      });
+    },
+    baseOils: (recipe) => {
+      return prisma.recipe.findUnique({ where: { id: recipe.id } }).baseOils({
+        select: { ingredient: true, ingredientId: true, quantity: true },
+      });
+    },
+    essentialOils: (recipe) => {
+      return prisma.recipe
+        .findUnique({ where: { id: recipe.id } })
+        .essentialOils({
+          select: { ingredient: true, ingredientId: true, quantity: true },
+        });
     },
   },
 };
