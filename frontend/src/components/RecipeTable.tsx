@@ -39,6 +39,7 @@ const QUERY = gql`
         ingredient {
           id
           name
+          costPerUnit
         }
         quantity
       }
@@ -46,6 +47,7 @@ const QUERY = gql`
         ingredient {
           id
           name
+          costPerUnit
         }
         quantity
       }
@@ -53,6 +55,7 @@ const QUERY = gql`
         ingredient {
           id
           name
+          costPerUnit
         }
         quantity
       }
@@ -63,6 +66,16 @@ const QUERY = gql`
 export async function RecipeTable() {
   try {
     const { data, error } = await getClient().query({ query: QUERY });
+    const costPer100 = (recipe) => {
+      const { baseOils, essentialOils } = recipe;
+      const baseCost = baseOils
+        .map(({ ingredient, quantity }) => quantity * ingredient.costPerUnit)
+        .reduce((acc, cost) => acc + cost, 0.0);
+      const essentialCost = essentialOils
+        .map(({ ingredient, quantity }) => quantity * ingredient.costPerUnit)
+        .reduce((acc, cost) => acc + cost, 0.0);
+      return baseCost + essentialCost;
+    };
     return (
       <Card x-chunk="dashboard-05-chunk-3">
         <CardHeader className="px-7">
@@ -81,6 +94,9 @@ export async function RecipeTable() {
                 <TableHead className="hidden sm:table-cell">Name</TableHead>
                 <TableHead className="hidden sm:table-cell">
                   Origin Name
+                </TableHead>
+                <TableHead className="hidden sm:table-cell">
+                  Cost Per 100g ($)
                 </TableHead>
                 <TableHead className="hidden md:table-cell">Water %</TableHead>
                 <TableHead className="hidden md:table-cell">Lye %</TableHead>
@@ -104,6 +120,9 @@ export async function RecipeTable() {
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     {recipe.originName}
+                  </TableCell>
+                  <TableCell className="hidden sm:table-cell">
+                    {costPer100(recipe).toFixed(2)}
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     {recipe.water.quantity}
