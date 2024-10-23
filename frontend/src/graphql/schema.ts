@@ -13,6 +13,7 @@ export const typeDefs = gql`
     slug: String!
     type: String!
     measurement: String!
+    costPerUnit: Float
   }
 
   type InventoryItem {
@@ -332,6 +333,28 @@ export const resolvers = {
   },
 
   DateTime: DateTimeResolver,
+
+  Ingredient: {
+    costPerUnit: async (ingredient) => {
+      // First, get all the purchases,
+      const { IngredientPurchase } = await prisma.ingredient.findUnique({
+        where: { id: ingredient.id },
+        select: { IngredientPurchase: true },
+      });
+      if (IngredientPurchase.length === 0) {
+        return 0;
+      }
+      const totalUnits = IngredientPurchase.reduce(
+        (total, { quantity }) => total + quantity,
+        0
+      );
+      const totalCost = IngredientPurchase.reduce(
+        (total, { price }) => total + price,
+        0
+      );
+      return totalCost / totalUnits;
+    },
+  },
 
   IngredientPurchase: {
     ingredient: (ip) => {

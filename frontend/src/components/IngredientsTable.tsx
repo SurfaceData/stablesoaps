@@ -29,6 +29,7 @@ const QUERY = gql`
       slug
       type
       measurement
+      costPerUnit
     }
   }
 `;
@@ -57,6 +58,9 @@ export async function IngredientsTable() {
                 <TableHead className="hidden md:table-cell">
                   Measurement
                 </TableHead>
+                <TableHead className="hidden md:table-cell">
+                  Cost Per Unit ($)
+                </TableHead>
                 <TableHead className="hidden md:table-cell">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -74,6 +78,9 @@ export async function IngredientsTable() {
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     {ingredient.measurement}
+                  </TableCell>
+                  <TableCell className="hidden sm:table-cell">
+                    {ingredient.costPerUnit.toFixed(2)}
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
                     <Link href={`/ingredient/${ingredient.id}`}>Edit</Link>

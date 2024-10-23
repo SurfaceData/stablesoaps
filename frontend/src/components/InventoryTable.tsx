@@ -29,6 +29,7 @@ const QUERY = gql`
         name
         type
         measurement
+        costPerUnit
       }
       quantity
     }
@@ -56,6 +57,9 @@ export async function InventoryTable() {
                   Ingredient Type
                 </TableHead>
                 <TableHead className="hidden md:table-cell">Quantity</TableHead>
+                <TableHead className="hidden md:table-cell">
+                  Cost Per Unit ($)
+                </TableHead>
                 <TableHead className="hidden md:table-cell">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -73,6 +77,9 @@ export async function InventoryTable() {
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     {item.quantity} {item.ingredient.measurement}
+                  </TableCell>
+                  <TableCell className="hidden sm:table-cell">
+                    {item.ingredient.costPerUnit.toFixed(2)}
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
                     <Link href={`/inventory/${item.id}`}>Edit</Link>
