@@ -63,6 +63,7 @@ const ADD_MUTATION = gql`
     }
   }
 `;
+
 const UPDATE_MUTATION = gql`
   mutation UpdateRecipe($id: Int!, $input: RecipeInput!) {
     updateRecipe(id: $id, input: $input) {
@@ -133,8 +134,14 @@ export function RecipeForm({ recipe }) {
           input: data,
         },
       });
+      return;
     }
-    console.log(data);
+    updateRecipe({
+      variables: {
+        id: recipe.id,
+        input: data,
+      },
+    });
   };
 
   return (

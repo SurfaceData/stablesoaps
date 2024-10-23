@@ -8,25 +8,51 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { PurchaseOrderForm } from "@/components/PurchaseOrderForm";
+import { RecipeForm } from "@/components/RecipeForm";
 
 const QUERY = gql`
-  query PurchaseOrder($id: Int!) {
-    purchaseOrder(id: $id) {
+  query Recipe($id: Int!) {
+    recipe(id: $id) {
       id
-      status
-      total
-      supplierName
-      items {
-        ingredientId
+      name
+      slug
+      originName
+      water {
+        ingredient {
+          id
+          name
+        }
         quantity
-        price
+      }
+      lye {
+        ingredient {
+          id
+          name
+          costPerUnit
+        }
+        quantity
+      }
+      baseOils {
+        ingredient {
+          id
+          name
+          costPerUnit
+        }
+        quantity
+      }
+      essentialOils {
+        ingredient {
+          id
+          name
+          costPerUnit
+        }
+        quantity
       }
     }
   }
 `;
 
-export default async function PurchaseOrderEditPage({ params }) {
+export default async function RecipeEditPage({ params }) {
   const { data, error } = await getClient().query({
     query: QUERY,
     variables: { id: parseInt(params.id) },
@@ -40,11 +66,11 @@ export default async function PurchaseOrderEditPage({ params }) {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Edit Purchase Order</BreadcrumbPage>
+            <BreadcrumbPage>Edit Recipe</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <PurchaseOrderForm order={data?.purchaseOrder} />
+      <RecipeForm recipe={data?.recipe} />
     </div>
   );
 }

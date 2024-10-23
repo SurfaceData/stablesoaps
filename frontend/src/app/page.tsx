@@ -33,24 +33,29 @@ export default function Home() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <Tabs defaultValue="inventory" className="">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="inventory">Inventory</TabsTrigger>
+      <Tabs defaultValue="recipes" className="">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="recipes">Recipes</TabsTrigger>
           <TabsTrigger value="purchase_orders">Purchase Orders</TabsTrigger>
-          <TabsTrigger value="ingredients">Ingredients</TabsTrigger>
         </TabsList>
-        <TabsContent value="ingredients">
-          <IngredientsTable />
-        </TabsContent>
         <TabsContent value="recipes">
           <RecipeTable />
         </TabsContent>
+        <TabsContent value="purchase_orders">
+          <PurchaseOrderTable />
+        </TabsContent>
+      </Tabs>
+
+      <Tabs defaultValue="inventory" className="">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="inventory">Inventory</TabsTrigger>
+          <TabsTrigger value="ingredients">Ingredients</TabsTrigger>
+        </TabsList>
         <TabsContent value="inventory">
           <InventoryTable />
         </TabsContent>
-        <TabsContent value="purchase_orders">
-          <PurchaseOrderTable />
+        <TabsContent value="ingredients">
+          <IngredientsTable />
         </TabsContent>
       </Tabs>
     </div>

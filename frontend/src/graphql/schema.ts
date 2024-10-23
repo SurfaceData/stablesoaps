@@ -115,6 +115,7 @@ export const typeDefs = gql`
     updateIngredient(id: Int!, input: IngredientInput!): Ingredient!
     updateInventoryItem(id: Int!, input: InventoryItemInput!): InventoryItem!
     updatePurchaseOrder(id: Int!, input: PurchaseOrderInput!): PurchaseOrder!
+    updateRecipe(id: Int!, input: RecipeInput!): Recipe!
   }
 `;
 
@@ -291,6 +292,13 @@ export const resolvers = {
       });
     },
 
+    updateInventoryItem: (a, { id, input }) => {
+      return prisma.inventoryItem.update({
+        where: { id },
+        data: input,
+      });
+    },
+
     updatePurchaseOrder: async (a, { id, input }) => {
       const { items, status, ...orderData } = input;
       if (status === "completed") {
@@ -328,6 +336,13 @@ export const resolvers = {
           ...orderData,
           status,
         },
+      });
+    },
+
+    updateRecipe: (a, { id, input }) => {
+      return prisma.recipe.update({
+        where: { id },
+        data: input,
       });
     },
   },
