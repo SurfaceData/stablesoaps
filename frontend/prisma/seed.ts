@@ -221,6 +221,14 @@ async function devSeed() {
         },
       },
     });
+    await db.batch.create({
+      data: {
+        createDate: "2024-10-23T08:00:00.000+09:00",
+        recipeId: 1,
+        amount: 600,
+        numBars: 6,
+      },
+    });
   } catch (error) {
     console.warn("Please define your seed data.");
     console.error(error);

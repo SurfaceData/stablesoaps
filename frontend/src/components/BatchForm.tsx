@@ -25,21 +25,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 const UPDATE_MUTATION = gql`
-  mutation UpdateInventoryItem($id: Int!, $input: InventoryItemInput!) {
-    updateInventoryItem(id: $id, input: $input) {
+  mutation UpdateBatch($id: Int!, $input: UpdateBatchInput!) {
+    updateBatch(id: $id, input: $input) {
       id
     }
   }
 `;
 
-interface EditInventoryItemInput {
-  quantity: number;
+interface EditBatchInput {
+  numBars: number;
 }
-
-export function InventoryItemForm({ item }) {
+export function BatchForm({ batch }) {
   const router = useRouter();
-  const form = useForm<EditInventoryItemInput>({
-    defaultValues: item,
+  const form = useForm<EditBatchInput>({
+    defaultValues: batch,
   });
   const [update, unused2] = useMutation(UPDATE_MUTATION, {
     onCompleted: () => {
@@ -48,10 +47,14 @@ export function InventoryItemForm({ item }) {
   });
 
   const onSubmit = (data) => {
+    console.log(data);
+    console.log(batch);
     update({
       variables: {
-        id: item.id,
-        input: data,
+        id: batch.id,
+        input: {
+          numBars: data.numBars,
+        },
       },
     });
   };
@@ -61,22 +64,20 @@ export function InventoryItemForm({ item }) {
       <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
         <Card x-chunk="dashboard-07-chunk-0">
           <CardHeader>
-            <CardTitle>
-              {item ? `Edit ${item.ingredient.name}` : "New Inventory Item"}
-            </CardTitle>
+            <CardTitle>Edit Batch Details</CardTitle>
           </CardHeader>
           <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <div className="grid gap-6">
                   <div className="grid gap-3">
-                    <Label htmlFor="quantity">Quantity</Label>
+                    <Label htmlFor="numBars">Num Bars</Label>
                     <Input
                       type="number"
-                      name="quantity"
-                      step="0.01"
+                      name="numBars"
+                      step="1"
                       className="w-full"
-                      {...form.register("quantity", {
+                      {...form.register("numBars", {
                         valueAsNumber: true,
                       })}
                     />
@@ -90,4 +91,6 @@ export function InventoryItemForm({ item }) {
       </div>
     </div>
   );
+
+  return <div>{JSON.stringify(batch)}</div>;
 }

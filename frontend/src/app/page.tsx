@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BatchesTable } from "@/components/BatchesTable";
 import { IngredientsTable } from "@/components/IngredientsTable";
 import { InventoryTable } from "@/components/InventoryTable";
 import { PurchaseOrderTable } from "@/components/PurchaseOrderTable";
@@ -33,11 +34,15 @@ export default function Home() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <Tabs defaultValue="recipes" className="">
-        <TabsList className="grid w-full grid-cols-2">
+      <Tabs defaultValue="batches" className="">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="batches">Batches</TabsTrigger>
           <TabsTrigger value="recipes">Recipes</TabsTrigger>
           <TabsTrigger value="purchase_orders">Purchase Orders</TabsTrigger>
         </TabsList>
+        <TabsContent value="batches">
+          <BatchesTable />
+        </TabsContent>
         <TabsContent value="recipes">
           <RecipeTable />
         </TabsContent>

@@ -110,4 +110,14 @@ model Recipe {
 
   baseOils      RecipeBaseItem[]
   essentialOils RecipeScentItem[]
+  Batch         Batch[]
+}
+
+model Batch {
+  id         Int      @id @default(autoincrement())
+  createDate DateTime
+  recipeId   Int
+  recipe     Recipe   @relation(fields: [recipeId], references: [id])
+  amount     Float
+  numBars    Int
 }
