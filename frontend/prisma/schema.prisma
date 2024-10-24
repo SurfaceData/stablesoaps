@@ -114,10 +114,40 @@ model Recipe {
 }
 
 model Batch {
-  id         Int      @id @default(autoincrement())
-  createDate DateTime
-  recipeId   Int
-  recipe     Recipe   @relation(fields: [recipeId], references: [id])
-  amount     Float
-  numBars    Int
+  id             Int              @id @default(autoincrement())
+  createDate     DateTime
+  recipeId       Int
+  recipe         Recipe           @relation(fields: [recipeId], references: [id])
+  amount         Float
+  numBars        Int
+  BatchSoapLabel BatchSoapLabel[]
+}
+
+model LabelScenePrompt {
+  id             Int              @id @default(autoincrement())
+  sceneId        Int
+  prompt         String
+  theme          String
+  BatchSoapLabel BatchSoapLabel[]
+}
+
+model LabelStyle {
+  id             Int              @id @default(autoincrement())
+  name           String
+  text           String
+  BatchSoapLabel BatchSoapLabel[]
+}
+
+model BatchSoapLabel {
+  id        Int    @id @default(autoincrement())
+  prompt    String
+  magicCode String
+  imagePath String
+
+  batchId      Int
+  batch        Batch            @relation(fields: [batchId], references: [id])
+  labelSceneId Int
+  labelScene   LabelScenePrompt @relation(fields: [labelSceneId], references: [id])
+  labelStyleId Int
+  labelStyle   LabelStyle       @relation(fields: [labelStyleId], references: [id])
 }

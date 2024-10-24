@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cli": "ts-node -P tsconfig.cli.json src/cli.ts"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -25,9 +26,13 @@
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.1",
+    "@stdlib/random-sample": "^0.2.1",
+    "axios": "^1.7.7",
+    "chalk": "^5.3.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
+    "commander": "^12.1.0",
     "graphql": "^16.9.0",
     "graphql-scalars": "^1.23.0",
     "lucide-react": "^0.453.0",
@@ -36,6 +41,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "slug": "^10.0.0",
+    "sqids": "^0.3.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "ts-node": "^10.9.2",
