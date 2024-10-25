@@ -122,7 +122,8 @@ export async function BatchesTable() {
                     {batch.numBars}
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
-                    <Link href={`/batch/${batch.id}`}>Edit</Link>
+                    <Link href={`/batch/${batch.id}`}>View</Link>
+                    <Link href={`/batch/${batch.id}/edit`}>Edit</Link>
                   </TableCell>
                 </TableRow>
               ))}

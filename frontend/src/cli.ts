@@ -2,6 +2,7 @@ import sample from "@stdlib/random-sample";
 import axios from "axios";
 import { Command } from "commander";
 import chalk from "chalk";
+import ProgressBar from "progress";
 import { writeFileSync, readFileSync } from "fs";
 import Sqids from "sqids";
 
@@ -112,6 +113,11 @@ program
     await db.batchSoapLabel.deleteMany({
       where: { batchId: batch.id },
     });
+    const bar = new ProgressBar(":bar :percent :etas", {
+      total: batch.numBars,
+      width: 40,
+    });
+
     for (var i = 0; i < batch.numBars; ++i) {
       const style = sampledStyles[i];
       const prompt = `${sampledScenePrompt.prompt}  ${style.text}`;
@@ -143,6 +149,7 @@ program
         labelStyleId: style.id,
       };
       labels.push(label);
+      bar.tick();
     }
     const results = await db.batchSoapLabel.createMany({
       data: labels,

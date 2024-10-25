@@ -24,12 +24,12 @@ model Ingredient {
   // - milliliters
   measurement String
 
-  IngredientPurchase IngredientPurchase[]
-  InventoryItem      InventoryItem[]
-  RecipeWaterItem    RecipeWaterItem[]
-  RecipeLyeItem      RecipeLyeItem[]
-  RecipeBaseItem     RecipeBaseItem[]
-  RecipeScentItem    RecipeScentItem[]
+  ingredientPurchase IngredientPurchase[]
+  inventoryItem      InventoryItem[]
+  recipeWaterItem    RecipeWaterItem[]
+  recipeLyeItem      RecipeLyeItem[]
+  recipeBaseItem     RecipeBaseItem[]
+  recipeScentItem    RecipeScentItem[]
 }
 
 model InventoryItem {
@@ -46,7 +46,7 @@ model IngredientPurchase {
   quantity     Float
   price        Float
 
-  PurchaseOrder   PurchaseOrder? @relation(fields: [purchaseOrderId], references: [id])
+  purchaseOrder   PurchaseOrder? @relation(fields: [purchaseOrderId], references: [id])
   purchaseOrderId Int?
 }
 
@@ -69,7 +69,7 @@ model RecipeWaterItem {
   ingredientId Int
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
   quantity     Float
-  Recipe       Recipe[]
+  recipe       Recipe[]
 }
 
 model RecipeLyeItem {
@@ -77,7 +77,7 @@ model RecipeLyeItem {
   ingredientId Int
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
   quantity     Float
-  Recipe       Recipe[]
+  recipe       Recipe[]
 }
 
 model RecipeBaseItem {
@@ -85,7 +85,7 @@ model RecipeBaseItem {
   ingredientId Int
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
   quantity     Float
-  Recipe       Recipe?    @relation(fields: [recipeId], references: [id])
+  recipe       Recipe?    @relation(fields: [recipeId], references: [id])
   recipeId     Int?
 }
 
@@ -94,7 +94,7 @@ model RecipeScentItem {
   ingredientId Int
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
   quantity     Float
-  Recipe       Recipe?    @relation(fields: [recipeId], references: [id])
+  recipe       Recipe?    @relation(fields: [recipeId], references: [id])
   recipeId     Int?
 }
 
@@ -110,7 +110,7 @@ model Recipe {
 
   baseOils      RecipeBaseItem[]
   essentialOils RecipeScentItem[]
-  Batch         Batch[]
+  batch         Batch[]
 }
 
 model Batch {
@@ -120,7 +120,7 @@ model Batch {
   recipe         Recipe           @relation(fields: [recipeId], references: [id])
   amount         Float
   numBars        Int
-  BatchSoapLabel BatchSoapLabel[]
+  batchSoapLabel BatchSoapLabel[]
 }
 
 model LabelScenePrompt {
@@ -128,14 +128,14 @@ model LabelScenePrompt {
   sceneId        Int
   prompt         String
   theme          String
-  BatchSoapLabel BatchSoapLabel[]
+  batchSoapLabel BatchSoapLabel[]
 }
 
 model LabelStyle {
   id             Int              @id @default(autoincrement())
   name           String
   text           String
-  BatchSoapLabel BatchSoapLabel[]
+  batchSoapLabel BatchSoapLabel[]
 }
 
 model BatchSoapLabel {

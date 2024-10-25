@@ -1,15 +1,5 @@
 import { gql } from "@apollo/client";
-import Image from "next/image";
-
 import { getClient } from "@/graphql/ApolloClient";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -27,12 +17,6 @@ const QUERY = gql`
       createDate
       amount
       numBars
-      batchSoapLabel {
-        id
-        prompt
-        magicCode
-        imagePath
-      }
       recipe {
         id
         name
@@ -74,12 +58,11 @@ const QUERY = gql`
   }
 `;
 
-export default async function BatchPage({ params }) {
+export default async function EditBatchPage({ params }) {
   const { data, error } = await getClient().query({
     query: QUERY,
     variables: { id: parseInt(params.id) },
   });
-  const batch = data.batch;
   return (
     <div className="flex flex-col gap-4 py-4 px-4">
       <Breadcrumb>
@@ -89,31 +72,17 @@ export default async function BatchPage({ params }) {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Batch {params.id}</BreadcrumbPage>
+            <BreadcrumbLink href={`/batch/${params.id}`}>
+              Batch {params.id}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Edit Batch</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {batch.batchSoapLabel.map((label, idx) => (
-          <Card key={label.id} className="w-[360px]">
-            <CardHeader className="px-7">
-              <CardTitle>{label.magicCode}</CardTitle>
-              <CardDescription className="flex justify-between">
-                {label.prompt}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-center">
-                <Image
-                  src={`/img/${label.magicCode}.png`}
-                  width="256"
-                  height="256"
-                />
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <BatchForm batch={data?.batch} />
     </div>
   );
 }

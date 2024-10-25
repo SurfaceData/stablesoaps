@@ -66,6 +66,14 @@ export const typeDefs = gql`
     recipeId: Int!
     amount: Float!
     numBars: Int!
+    batchSoapLabel: [BatchSoapLabel!]!
+  }
+
+  type BatchSoapLabel {
+    id: Int!
+    prompt: String!
+    magicCode: String!
+    imagePath: String!
   }
 
   input IngredientInput {
@@ -435,6 +443,12 @@ export const resolvers = {
   },
 
   Batch: {
+    batchSoapLabel: (batch) => {
+      return prisma.batch
+        .findUnique({ where: { id: batch.id } })
+        .batchSoapLabel();
+    },
+
     recipe: (batch) => {
       return prisma.batch.findUnique({ where: { id: batch.id } }).recipe();
     },
@@ -445,18 +459,18 @@ export const resolvers = {
   Ingredient: {
     costPerUnit: async (ingredient) => {
       // First, get all the purchases,
-      const { IngredientPurchase } = await prisma.ingredient.findUnique({
+      const { ingredientPurchase } = await prisma.ingredient.findUnique({
         where: { id: ingredient.id },
-        select: { IngredientPurchase: true },
+        select: { ingredientPurchase: true },
       });
-      if (IngredientPurchase.length === 0) {
+      if (ingredientPurchase.length === 0) {
         return 0;
       }
-      const totalUnits = IngredientPurchase.reduce(
+      const totalUnits = ingredientPurchase.reduce(
         (total, { quantity }) => total + quantity,
         0
       );
-      const totalCost = IngredientPurchase.reduce(
+      const totalCost = ingredientPurchase.reduce(
         (total, { price }) => total + price,
         0
       );

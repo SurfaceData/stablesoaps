@@ -58,7 +58,7 @@ export default async function RecipeEditPage({ params }) {
     variables: { id: parseInt(params.id) },
   });
   return (
-    <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-4">
+    <div className="flex flex-col gap-4 py-4 px-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
