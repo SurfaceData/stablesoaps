@@ -2,6 +2,7 @@ import { gql } from "@apollo/client";
 import Image from "next/image";
 
 import { getClient } from "@/graphql/ApolloClient";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -67,6 +68,7 @@ const QUERY = gql`
             id
             name
             costPerUnit
+            notes
           }
           quantity
         }
@@ -140,6 +142,13 @@ export default async function BatchPage({ params }) {
                     <p className="text-sm font-medium leading-none">
                       {oil.ingredient.name}
                     </p>
+                    <div className="flex gap-1">
+                      {oil.ingredient.notes.map((note, nid) => (
+                        <Badge key={`${oil.ingredient.id}-${nid}`}>
+                          {note}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
                   <div className="ml-auto space-y-1">
                     <div className="ml-auto font-medium">
