@@ -29,6 +29,7 @@ const QUERY = gql`
           id
           name
           costPerUnit
+          lyeType
         }
         quantity
       }
@@ -37,6 +38,7 @@ const QUERY = gql`
           id
           name
           costPerUnit
+          saponification
         }
         quantity
       }
@@ -45,6 +47,7 @@ const QUERY = gql`
           id
           name
           costPerUnit
+          notes
         }
         quantity
       }

@@ -6,7 +6,10 @@ import ProgressBar from "progress";
 import { writeFileSync, readFileSync } from "fs";
 import Sqids from "sqids";
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
+
+import { Ingredient, IngredientWithQuantity } from "@/types";
+import { calculateLye, calculateWater } from "@/lib/calculator";
 
 const db = new PrismaClient();
 const program = new Command();
@@ -16,6 +19,57 @@ program
   .name("soap-tools")
   .description("CLI tools for Stable Soap Operations")
   .version("1.0.0");
+
+// Define types for command options
+interface LyeCalcOptions {
+  recipe: number;
+  superfat: number;
+  waterRatio: number;
+}
+
+program
+  .command("lye-calc")
+  .description("Tests a Lye Calculation")
+  .requiredOption("-r, --recipe <id>", "The recipe ID to test", parseInt)
+  .requiredOption(
+    "-s, --superfat <percent>",
+    "The superfat percentage",
+    parseFloat
+  )
+  .requiredOption(
+    "-w, --waterRatio <water>",
+    "The water to lye ratio",
+    parseFloat
+  )
+  .action(async (options: LyeCalcOptions) => {
+    const discount = (100 - options.superfat) / 100.0;
+    const recipe = await db.recipe.findUnique({
+      where: { id: options.recipe },
+      select: {
+        lye: {
+          select: {
+            ingredient: true,
+            quantity: true,
+          },
+        },
+        baseOils: {
+          select: {
+            ingredient: true,
+            quantity: true,
+          },
+        },
+      },
+    });
+    if (!recipe) {
+      throw new Error("No recipe found");
+    }
+    const lye = recipe.lye.ingredient as Ingredient;
+    const baseOils = recipe.baseOils as IngredientWithQuantity[];
+    const lyePercent = calculateLye(options.superfat, lye, baseOils);
+    const waterPercent = calculateWater(lyePercent, options.waterRatio);
+    console.log(lyePercent.toFixed(2));
+    console.log(waterPercent.toFixed(2));
+  });
 
 // Define types for command options
 interface JSONLoadOptions {

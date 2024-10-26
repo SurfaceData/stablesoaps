@@ -1,4 +1,4 @@
-import { DateTimeResolver } from "graphql-scalars";
+import { GraphQLJSON, DateTimeResolver } from "graphql-scalars";
 import { gql } from "graphql-tag";
 import slug from "slug";
 
@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 
 export const typeDefs = gql`
   scalar DateTime
+  scalar JSON
 
   type Ingredient {
     id: Int!
@@ -13,6 +14,9 @@ export const typeDefs = gql`
     slug: String!
     type: String!
     measurement: String!
+    lyeType: String
+    saponification: JSON
+    notes: [String!]!
     costPerUnit: Float
   }
 
@@ -455,6 +459,7 @@ export const resolvers = {
   },
 
   DateTime: DateTimeResolver,
+  JSON: GraphQLJSON,
 
   Ingredient: {
     costPerUnit: async (ingredient) => {

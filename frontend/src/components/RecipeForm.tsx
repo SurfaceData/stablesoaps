@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { gql, useSuspenseQuery, useQuery, useMutation } from "@apollo/client";
 import { cn } from "@/lib/utils";
+import { calculateLye, calculateWater } from "@/lib/calculator";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -52,6 +53,8 @@ const QUERY = gql`
       id
       name
       type
+      saponification
+      notes
     }
   }
 `;
@@ -127,6 +130,21 @@ export function RecipeForm({ recipe }) {
     },
   });
 
+  const setLye = () => {
+    const data = form.getValues();
+    const lye = data.lye;
+    const baseOils = data.baseOils;
+    const lyePercentage = calculateLye(5, lye, baseOils);
+    form.setValue("lye.quantity", lyePercentage);
+  };
+
+  const setWater = () => {
+    const data = form.getValues();
+    const lye = data.lye;
+    const waterPercentage = calculateWater(lye.quantity, 2.25);
+    form.setValue("water.quantity", waterPercentage);
+  };
+
   const onSubmit = (data) => {
     if (!recipe) {
       addRecipe({
@@ -178,17 +196,28 @@ export function RecipeForm({ recipe }) {
                     />
                   </div>
 
-                  <div className="grid gap-3">
-                    <Label htmlFor="water.quantity">Water Percentage</Label>
-                    <Input
-                      type="number"
-                      step="0.01"
-                      name="water.quantity"
-                      className="w-full"
-                      {...form.register("water.quantity", {
-                        valueAsNumber: true,
-                      })}
-                    />
+                  <div>
+                    <div className="grid gap-3">
+                      <Label htmlFor="water.quantity">Water Percentage</Label>
+                      <Input
+                        type="number"
+                        step="0.01"
+                        name="water.quantity"
+                        className="w-full"
+                        {...form.register("water.quantity", {
+                          valueAsNumber: true,
+                        })}
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="mt-2"
+                      onClick={setWater}
+                    >
+                      Auto Calculate Water
+                    </Button>
                   </div>
 
                   <FormField
@@ -256,17 +285,28 @@ export function RecipeForm({ recipe }) {
                     )}
                   />
 
-                  <div className="grid gap-3">
-                    <Label htmlFor="lye.quantity">Lye Percentage</Label>
-                    <Input
-                      type="number"
-                      step="0.01"
-                      name="lye.quantity"
-                      className="w-full"
-                      {...form.register("lye.quantity", {
-                        valueAsNumber: true,
-                      })}
-                    />
+                  <div>
+                    <div className="grid gap-3">
+                      <Label htmlFor="lye.quantity">Lye Percentage</Label>
+                      <Input
+                        type="number"
+                        step="0.01"
+                        name="lye.quantity"
+                        className="w-full"
+                        {...form.register("lye.quantity", {
+                          valueAsNumber: true,
+                        })}
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="mt-2"
+                      onClick={setLye}
+                    >
+                      Auto Calculate Lye
+                    </Button>
                   </div>
 
                   <div>

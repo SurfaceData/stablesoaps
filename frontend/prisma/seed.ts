@@ -13,58 +13,82 @@ async function devSeed() {
         measurement: "grams",
       },
       {
-        name: "Olive Oil",
-        slug: "olive_oil",
+        name: "Olive Oil Pomace",
+        slug: "olive_oil_pomace",
         type: "base_oil",
         measurement: "grams",
+        saponification: {
+          naoh: 0.134,
+          koh: 0.188,
+        },
       },
       {
         name: "Coconut Oil",
         slug: "coconut_oil",
         type: "base_oil",
         measurement: "grams",
+        saponification: {
+          naoh: 0.183,
+          koh: 0.257,
+        },
       },
       {
         name: "Palm Oil",
         slug: "palm_oil",
         type: "base_oil",
         measurement: "grams",
+        saponification: {
+          naoh: 0.142,
+          koh: 0.199,
+        },
       },
       {
         name: "Castor Oil",
         slug: "castor_oil",
         type: "base_oil",
         measurement: "grams",
+        saponification: {
+          naoh: 0.128,
+          koh: 0.18,
+        },
       },
       {
         name: "Avocado Oil",
         slug: "avocado_oil",
         type: "base_oil",
         measurement: "grams",
+        saponification: {
+          naoh: 0.133,
+          koh: 0.187,
+        },
       },
       {
         name: "Hinoki EO",
         slug: "hinoki_eo",
         type: "essential_oil",
         measurement: "grams",
+        notes: ["base", "middle"],
       },
       {
         name: "Rose EO",
         slug: "rose_eo",
         type: "essential_oil",
         measurement: "milliliters",
+        notes: ["middle"],
       },
       {
         name: "Geranium EO",
         slug: "geranium_eo",
         type: "essential_oil",
         measurement: "milliliters",
+        notes: ["top", "middle"],
       },
       {
         name: "Sodium Hydroxide",
         slug: "sodium_hydroxide",
         type: "lye",
         measurement: "grams",
+        lyeType: "naoh",
       },
     ];
     const createdIngredients = await db.ingredient.createManyAndReturn({

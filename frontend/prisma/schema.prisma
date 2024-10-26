@@ -24,6 +24,15 @@ model Ingredient {
   // - milliliters
   measurement String
 
+  // Lye details
+  lyeType String?
+
+  // Base Oil details
+  saponification Json?
+
+  // Essential Oil details
+  notes String[]
+
   ingredientPurchase IngredientPurchase[]
   inventoryItem      InventoryItem[]
   recipeWaterItem    RecipeWaterItem[]
