@@ -1,0 +1,146 @@
+[
+  {
+    "id": 17,
+    "name": "Bergamot EO",
+    "slug": "bergamot_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["top"]
+  },
+  {
+    "id": 18,
+    "name": "Buddha Wood EO",
+    "slug": "buddha_wood_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["base"]
+  },
+  {
+    "id": 19,
+    "name": "Cedarwood Atlas EO",
+    "slug": "cedarwood_atlas_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["base"]
+  },
+  {
+    "id": 20,
+    "name": "Clary Sage EO",
+    "slug": "clary_sage_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["middle"]
+  },
+  {
+    "id": 21,
+    "name": "Cypress Leaf EO",
+    "slug": "cypress_leaf_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["middle"]
+  },
+  {
+    "id": 22,
+    "name": "Fir, Douglas EO",
+    "slug": "fir_douglas_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["middle", "top"]
+  },
+  {
+    "id": 23,
+    "name": "Fir, Balsam EO",
+    "slug": "fir_balsam_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["middle", "top"]
+  },
+  {
+    "id": 24,
+    "name": "Geranium Rose EO",
+    "slug": "geranium_rose_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["middle", "top"]
+  },
+  {
+    "id": 25,
+    "name": "Juniper Leaf EO",
+    "slug": "juniper_leaf_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["middle", "top"]
+  },
+  {
+    "id": 26,
+    "name": "Lavender, France EO",
+    "slug": "lavender_france_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["middle", "top"]
+  },
+  {
+    "id": 27,
+    "name": "Lemongrass, Organic EO",
+    "slug": "lemongrass_organic_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["middle", "top"]
+  },
+  {
+    "id": 28,
+    "name": "Patchouli, Light EO",
+    "slug": "patchouli_light_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["base"]
+  },
+  {
+    "id": 29,
+    "name": "Rose EO",
+    "slug": "rose_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["middle"]
+  },
+  {
+    "id": 30,
+    "name": "Hinoki EO",
+    "slug": "hinoki_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["base", "middle"]
+  },
+  {
+    "id": 31,
+    "name": "Myrrh, Organic EO",
+    "slug": "myrrh_organic_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["base"]
+  },
+  {
+    "id": 32,
+    "name": "Pine, Scotch EO",
+    "slug": "pine_scotch_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["middle"]
+  },
+  {
+    "id": 33,
+    "name": "Jasmine 10% EO",
+    "slug": "jasmine_10_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["middle"]
+  },
+  {
+    "id": 34,
+    "name": "Neroli 10% EO",
+    "slug": "neroli_10_eo",
+    "type": "essential_oil",
+    "measurement": "grams",
+    "notes": ["top"]
+  }
+]

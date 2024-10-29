@@ -1,0 +1,102 @@
+[
+    {
+        "name": "by-makoto-shinkai",
+        "id": 0,
+        "text": "by Makoto Shinkai"
+    },
+    {
+        "name": "claymation",
+        "id": 1,
+        "text": "in  Clay Animation style"
+    },
+    {
+        "name": "diorama",
+        "id": 2,
+        "text": "in diorama style"
+    },
+    {
+        "name": "gemmacorrell",
+        "id": 3,
+        "text": "in Gemma Correll Style"
+    },
+    {
+        "name": "hasuikawase",
+        "id": 4,
+        "text": "in Hasui Kawase Style"
+    },
+    {
+        "name": "kaynielsen",
+        "id": 5,
+        "text": "in Kay Nielsen Style"
+    },
+    {
+        "name": "kirigami",
+        "id": 6,
+        "text": "In Japanese Kirigami Style"
+    },
+    {
+        "name": "picture-story-book",
+        "id": 7,
+        "text": "in Picture-Story Book Style"
+    },
+    {
+        "name": "pixel-art-xl",
+        "id": 8,
+        "text": "in Pixel Art Style"
+    },
+    {
+        "name": "tangbohu-style",
+        "id": 9,
+        "text": "in classical Chinese Tang Bo Hu Style"
+    },
+    {
+        "name": "MidCenturyComic",
+        "id": 10,
+        "text": "in Mid-century Comic Style"
+    },
+    {
+        "name": "PapierMache",
+        "id": 11,
+        "text": "in Papier Mache Style"
+    },
+    {
+        "name": "VintageMarker",
+        "id": 12,
+        "text": "in Vintage Marker Style"
+    },
+    {
+        "name": "BricksStyle",
+        "id": 13,
+        "text": "in Red Bricks Style"
+    },
+    {
+        "name": "centurybotanical",
+        "id": 14,
+        "text": "in Century Botanical Illustration style"
+    },
+    {
+        "name": "ghibli",
+        "id": 15,
+        "text": "in Studio Ghibli Style"
+    },
+    {
+        "name": "guofeng-chinese-style",
+        "id": 16,
+        "text": "in Guo Feng Chinese Style"
+    },
+    {
+        "name": "jessiewillcox",
+        "id": 17,
+        "text": "in Jessie Willcox Style"
+    },
+    {
+        "name": "johnberkey",
+        "id": 18,
+        "text": "in John Berkeley Style"
+    },
+    {
+        "name": "yanzhi-paper-quilling",
+        "id": 19,
+        "text": "In Yanzhi paper quilling style"
+    }
+]

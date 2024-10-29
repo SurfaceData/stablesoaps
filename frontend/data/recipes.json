@@ -1,0 +1,251 @@
+[
+  {
+    "name": "Old Faithful - Douglas Fir & Jasmine",
+    "slug": "old_faithful_dfir_jasmine",
+    "originName": "Berry Bramble",
+    "water": {
+      "create": {
+        "ingredientId": 1,
+        "quantity": 32
+      }
+    },
+    "lye": {
+      "create": {
+        "ingredientId": 2,
+        "quantity": 14
+      }
+    },
+    "baseOils": {
+      "create": [
+        {
+          "ingredientId": 3,
+          "quantity": 32
+        },
+        {
+          "ingredientId": 4,
+          "quantity": 32
+        },
+        {
+          "ingredientId": 5,
+          "quantity": 32
+        },
+        {
+          "ingredientId": 8,
+          "quantity": 4
+        }
+      ]
+    },
+    "essentialOils": {
+      "create": [
+        {
+          "ingredientId": 22,
+          "quantity": 1.4
+        },
+        {
+          "ingredientId": 33,
+          "quantity": 1.4
+        }
+      ]
+    }
+  },
+  {
+    "name": "Old Faithful - Pine Needle & Neroli",
+    "slug": "old_faithful_pneedle_neroli",
+    "originName": "Berry Bramble",
+    "water": {
+      "create": {
+        "ingredientId": 1,
+        "quantity": 32
+      }
+    },
+    "lye": {
+      "create": {
+        "ingredientId": 2,
+        "quantity": 14
+      }
+    },
+    "baseOils": {
+      "create": [
+        {
+          "ingredientId": 3,
+          "quantity": 32
+        },
+        {
+          "ingredientId": 4,
+          "quantity": 32
+        },
+        {
+          "ingredientId": 5,
+          "quantity": 32
+        },
+        {
+          "ingredientId": 8,
+          "quantity": 4
+        }
+      ]
+    },
+    "essentialOils": {
+      "create": [
+        {
+          "ingredientId": 32,
+          "quantity": 1.4
+        },
+        {
+          "ingredientId": 34,
+          "quantity": 1.4
+        }
+      ]
+    }
+  },
+  {
+    "name": "Old Faithful - Geranium Rose",
+    "slug": "old_faithful_geranium_rose",
+    "originName": "Berry Bramble",
+    "water": {
+      "create": {
+        "ingredientId": 1,
+        "quantity": 32
+      }
+    },
+    "lye": {
+      "create": {
+        "ingredientId": 2,
+        "quantity": 14
+      }
+    },
+    "baseOils": {
+      "create": [
+        {
+          "ingredientId": 3,
+          "quantity": 32
+        },
+        {
+          "ingredientId": 4,
+          "quantity": 32
+        },
+        {
+          "ingredientId": 5,
+          "quantity": 32
+        },
+        {
+          "ingredientId": 8,
+          "quantity": 4
+        }
+      ]
+    },
+    "essentialOils": {
+      "create": [
+        {
+          "ingredientId": 24,
+          "quantity": 2.0 
+        }
+      ]
+    }
+  },
+  {
+    "name": "Post Modern Faithful - Hinoki & Rose",
+    "slug": "pmodern_faithful_hinoki_rose",
+    "originName": "Berry Bramble",
+    "water": {
+      "create": {
+        "ingredientId": 1,
+        "quantity": 32
+      }
+    },
+    "lye": {
+      "create": {
+        "ingredientId": 2,
+        "quantity": 14
+      }
+    },
+    "baseOils": {
+      "create": [
+        {
+          "ingredientId": 3,
+          "quantity": 30
+        },
+        {
+          "ingredientId": 4,
+          "quantity": 30
+        },
+        {
+          "ingredientId": 5,
+          "quantity": 30
+        },
+        {
+          "ingredientId": 9,
+          "quantity": 5
+        },
+        {
+          "ingredientId": 8,
+          "quantity": 5
+        }
+      ]
+    },
+    "essentialOils": {
+      "create": [
+        {
+          "ingredientId": 30,
+          "quantity": 1.4
+        },
+        {
+          "ingredientId": 29,
+          "quantity": 1.4
+        }
+      ]
+    }
+  },
+  {
+    "name": "Post Modern Faithful - Myrrh & Clary Sage",
+    "slug": "pmodern_faithful_myrrh_clarysage",
+    "originName": "Berry Bramble",
+    "water": {
+      "create": {
+        "ingredientId": 1,
+        "quantity": 32
+      }
+    },
+    "lye": {
+      "create": {
+        "ingredientId": 2,
+        "quantity": 14
+      }
+    },
+    "baseOils": {
+      "create": [
+        {
+          "ingredientId": 3,
+          "quantity": 30
+        },
+        {
+          "ingredientId": 4,
+          "quantity": 30
+        },
+        {
+          "ingredientId": 5,
+          "quantity": 30
+        },
+        {
+          "ingredientId": 9,
+          "quantity": 5
+        },
+        {
+          "ingredientId": 8,
+          "quantity": 5
+        }
+      ]
+    },
+    "essentialOils": {
+      "create": [
+        {
+          "ingredientId": 31,
+          "quantity": 1.4
+        },
+        {
+          "ingredientId": 20,
+          "quantity": 1.4
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,156 @@
+[
+  {
+    "id": 3,
+    "name": "Olive Oil Pomace",
+    "slug": "olive_oil_pomace",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.134,
+      "koh": 0.188
+    }
+  },
+  {
+    "id": 4,
+    "name": "Coconut Oil 76",
+    "slug": "coconut_oil_76",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.183,
+      "koh": 0.257
+    }
+  },
+  {
+    "id": 5,
+    "name": "Palm Oil",
+    "slug": "palm_oil",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.142,
+      "koh": 0.199
+    }
+  },
+  {
+    "id": 6,
+    "name": "Palm Kernel Oil",
+    "slug": "palm_kernel_oil",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.176,
+      "koh": 0.247
+    }
+  },
+  {
+    "id": 7,
+    "name": "Canola Oil",
+    "slug": "canola_oil",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.133,
+      "koh": 0.186
+    }
+  },
+  {
+    "id": 8,
+    "name": "Castor Oil",
+    "slug": "castor_oil",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.128,
+      "koh": 0.18
+    }
+  },
+  {
+    "id": 9,
+    "name": "Avocado Oil",
+    "slug": "avocado_oil",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.133,
+      "koh": 0.187
+    }
+  },
+  {
+    "id": 10,
+    "name": "Rice Bran Oil",
+    "slug": "rice_bran_oil",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.128,
+      "koh": 0.179
+    }
+  },
+  {
+    "id": 11,
+    "name": "Sunflower Oil Refined",
+    "slug": "sunflower_oil_refined",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.135,
+      "koh": 0.189
+    }
+  },
+  {
+    "id": 12,
+    "name": "Safflower Oil",
+    "slug": "safflower_oil",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.137,
+      "koh": 0.192
+    }
+  },
+  {
+    "id": 13,
+    "name": "Shea Butter Refined",
+    "slug": "shea_butter_refined",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.138,
+      "koh": 0.179
+    }
+  },
+  {
+    "id": 14,
+    "name": "Mango Butter Refined",
+    "slug": "mango_butter_refined",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.136,
+      "koh": 0.191
+    }
+  },
+  {
+    "id": 15,
+    "name": "Jojoba Oil Clear ",
+    "slug": "jojoba_oil_clear",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.066,
+      "koh": 0.092
+    }
+  },
+  {
+    "id": 16,
+    "name": "Sweet Almond Oil",
+    "slug": "sweet_almond_oil",
+    "type": "base_oil",
+    "measurement": "grams",
+    "saponification": {
+      "naoh": 0.139,
+      "koh": 0.195
+    }
+  }
+]

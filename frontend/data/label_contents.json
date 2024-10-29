@@ -1,0 +1,68 @@
+[
+    {
+        "id": 1,
+        "prompt": "The magical Flower Fruit Mountain rising from the sea, with various mythical creatures like phoenixes, qilins, and spiritual foxes inhabiting its peaks and caves in Gemma Correll Style",
+        "batchId": 1,
+        "labelSceneId": 4,
+        "labelStyleId": 3,
+        "imagePathRg": "/img/iNDafx9tCS.png",
+        "imagePathMd": "/img/iNDafx9tCS_medium.png",
+        "imagePathSm": "/img/iNDafx9tCS_small.png",
+        "magicCode": "iNDafx9tCS"
+    },
+    {
+        "id": 2,
+        "prompt": "The magical Flower Fruit Mountain rising from the sea, with various mythical creatures like phoenixes, qilins, and spiritual foxes inhabiting its peaks and caves in Century Botanical Illustration style",
+        "batchId": 1,
+        "labelSceneId": 4,
+        "labelStyleId": 10,
+        "imagePathRg": "/img/uE2KYLF9DC.png",
+        "imagePathMd": "/img/uE2KYLF9DC_medium.png",
+        "imagePathSm": "/img/uE2KYLF9DC_small.png",
+        "magicCode": "uE2KYLF9DC"
+    },
+    {
+        "id": 3,
+        "prompt": "The magical Flower Fruit Mountain rising from the sea, with various mythical creatures like phoenixes, qilins, and spiritual foxes inhabiting its peaks and caves in  Clay Animation style",
+        "batchId": 1,
+        "labelSceneId": 4,
+        "labelStyleId": 1,
+        "imagePathRg": "/img/cYusaLwSMh.png",
+        "imagePathMd": "/img/cYusaLwSMh_medium.png",
+        "imagePathSm": "/img/cYusaLwSMh_small.png",
+        "magicCode": "cYusaLwSMh"
+    },
+    {
+        "id": 4,
+        "prompt": "The magical Flower Fruit Mountain rising from the sea, with various mythical creatures like phoenixes, qilins, and spiritual foxes inhabiting its peaks and caves in classical Chinese Tang Bo Hu Style",
+        "batchId": 1,
+        "labelSceneId": 4,
+        "labelStyleId": 9,
+        "imagePathRg": "/img/NuzvXCVVWC.png",
+        "imagePathMd": "/img/NuzvXCVVWC_medium.png",
+        "imagePathSm": "/img/NuzvXCVVWC_small.png",
+        "magicCode": "NuzvXCVVWC"
+    },
+    {
+        "id": 5,
+        "prompt": "The magical Flower Fruit Mountain rising from the sea, with various mythical creatures like phoenixes, qilins, and spiritual foxes inhabiting its peaks and caves In Japanese Kirigami Style",
+        "batchId": 1,
+        "labelSceneId": 4,
+        "labelStyleId": 6,
+        "imagePathRg": "/img/M3nlyTRfIU.png",
+        "imagePathMd": "/img/M3nlyTRfIU_medium.png",
+        "imagePathSm": "/img/M3nlyTRfIU_small.png",
+        "magicCode": "M3nlyTRfIU"
+    },
+    {
+        "id": 6,
+        "prompt": "The magical Flower Fruit Mountain rising from the sea, with various mythical creatures like phoenixes, qilins, and spiritual foxes inhabiting its peaks and caves by Makoto Shinkai",
+        "batchId": 1,
+        "labelSceneId": 4,
+        "labelStyleId": 0,
+        "imagePathRg": "/img/xiopCT74Lw.png",
+        "imagePathMd": "/img/xiopCT74Lw_medium.png",
+        "imagePathSm": "/img/xiopCT74Lw_small.png",
+        "magicCode": "xiopCT74Lw"
+    }
+]

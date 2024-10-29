@@ -1,260 +1,87 @@
-import type { Prisma } from "@prisma/client";
-import { PrismaClient } from "@prisma/client";
+import type {Prisma} from '@prisma/client';
+import {PrismaClient} from '@prisma/client';
+
+import baseOils from '../data/base_oils.json';
+import essentialOils from '../data/essential_oils.json';
+import purchaseOrders from '../data/purchase_orders.json';
+import recipes from '../data/recipes.json';
+import labelScenePrompts from '../data/label_scene_prompts.json';
+import labelStyles from '../data/label_styles.json';
+import batches from '../data/batches.json';
+import labelContents from '../data/label_contents.json';
 
 const db = new PrismaClient();
 
 async function devSeed() {
   try {
-    const ingredients: Prisma.IngredientCreateInput[] = [
+    const ingredients = [
       {
-        name: "Water",
-        slug: "water",
-        type: "water",
-        measurement: "grams",
+        id: 1,
+        name: 'Water',
+        slug: 'water',
+        type: 'water',
+        measurement: 'grams',
       },
       {
-        name: "Olive Oil Pomace",
-        slug: "olive_oil_pomace",
-        type: "base_oil",
-        measurement: "grams",
-        saponification: {
-          naoh: 0.134,
-          koh: 0.188,
-        },
+        id: 2,
+        name: 'Sodium Hydroxide',
+        slug: 'sodium_hydroxide',
+        type: 'lye',
+        measurement: 'grams',
+        lyeType: 'naoh',
       },
-      {
-        name: "Coconut Oil",
-        slug: "coconut_oil",
-        type: "base_oil",
-        measurement: "grams",
-        saponification: {
-          naoh: 0.183,
-          koh: 0.257,
-        },
-      },
-      {
-        name: "Palm Oil",
-        slug: "palm_oil",
-        type: "base_oil",
-        measurement: "grams",
-        saponification: {
-          naoh: 0.142,
-          koh: 0.199,
-        },
-      },
-      {
-        name: "Castor Oil",
-        slug: "castor_oil",
-        type: "base_oil",
-        measurement: "grams",
-        saponification: {
-          naoh: 0.128,
-          koh: 0.18,
-        },
-      },
-      {
-        name: "Avocado Oil",
-        slug: "avocado_oil",
-        type: "base_oil",
-        measurement: "grams",
-        saponification: {
-          naoh: 0.133,
-          koh: 0.187,
-        },
-      },
-      {
-        name: "Hinoki EO",
-        slug: "hinoki_eo",
-        type: "essential_oil",
-        measurement: "grams",
-        notes: ["base", "middle"],
-      },
-      {
-        name: "Rose EO",
-        slug: "rose_eo",
-        type: "essential_oil",
-        measurement: "milliliters",
-        notes: ["middle"],
-      },
-      {
-        name: "Geranium EO",
-        slug: "geranium_eo",
-        type: "essential_oil",
-        measurement: "milliliters",
-        notes: ["top", "middle"],
-      },
-      {
-        name: "Sodium Hydroxide",
-        slug: "sodium_hydroxide",
-        type: "lye",
-        measurement: "grams",
-        lyeType: "naoh",
-      },
+      ...baseOils,
+      ...essentialOils,
     ];
     const createdIngredients = await db.ingredient.createManyAndReturn({
       data: ingredients,
     });
 
-    await db.purchaseOrder.create({
-      data: {
-        status: "completed",
-        createDate: "2024-10-19T08:00:00.000+09:00",
-        receiveDate: "2024-12-19T08:00:00.000+09:00",
-        total: 30.0,
-        supplierName: "Wholesale Supplies Plus",
-        items: {
-          create: [
-            {
-              ingredientId: 2,
-              quantity: 3175,
-              price: 24.56,
+    for (const po of purchaseOrders) {
+      await db.purchaseOrder.create({
+        data: po,
+      });
+      const inventoryData = po['items']['create'];
+      for (const inventoryItem of inventoryData) {
+        const {ingredientId, quantity} = inventoryItem;
+        await db.inventoryItem.upsert({
+          where: {ingredientId},
+          create: {
+            ingredientId,
+            quantity,
+          },
+          update: {
+            quantity: {
+              increment: quantity,
             },
-            {
-              ingredientId: 3,
-              quantity: 3628,
-              price: 34.56,
-            },
-            {
-              ingredientId: 4,
-              quantity: 3628,
-              price: 44.56,
-            },
-            {
-              ingredientId: 5,
-              quantity: 453.592,
-              price: 12.0,
-            },
-            {
-              ingredientId: 6,
-              quantity: 453.592,
-              price: 22.0,
-            },
-            {
-              ingredientId: 7,
-              quantity: 15,
-              price: 7.0,
-            },
-            {
-              ingredientId: 8,
-              quantity: 15,
-              price: 7.0,
-            },
-            {
-              ingredientId: 9,
-              quantity: 15,
-              price: 8.0,
-            },
-            {
-              ingredientId: 10,
-              quantity: 900,
-              price: 19.5,
-            },
-          ],
-        },
-      },
+          },
+        });
+      }
+    }
+
+    for (const recipe of recipes) {
+      await db.recipe.create({
+        data: recipe,
+      });
+    }
+
+    await db.labelScenePrompt.createMany({
+      data: labelScenePrompts,
     });
 
-    await db.inventoryItem.createMany({
-      data: [
-        {
-          ingredientId: 2,
-          quantity: 3175,
-        },
-        {
-          ingredientId: 3,
-          quantity: 3628,
-        },
-        {
-          ingredientId: 4,
-          quantity: 3628,
-        },
-        {
-          ingredientId: 5,
-          quantity: 453.592,
-        },
-        {
-          ingredientId: 6,
-          quantity: 453.592,
-        },
-        {
-          ingredientId: 7,
-          quantity: 15,
-        },
-        {
-          ingredientId: 8,
-          quantity: 15,
-        },
-        {
-          ingredientId: 9,
-          quantity: 15,
-        },
-        {
-          ingredientId: 10,
-          quantity: 900,
-        },
-      ],
+    await db.labelStyle.createMany({
+      data: labelStyles,
     });
-    await db.recipe.create({
-      data: {
-        name: "Old Faithful - Rose & Hinoki",
-        slug: "old_faithful_rose_hinoki",
-        originName: "Berry Bramble",
-        water: {
-          create: {
-            ingredientId: 1,
-            quantity: 32,
-          },
-        },
-        lye: {
-          create: {
-            ingredientId: 10,
-            quantity: 14,
-          },
-        },
-        baseOils: {
-          create: [
-            {
-              ingredientId: 2,
-              quantity: 32,
-            },
-            {
-              ingredientId: 3,
-              quantity: 32,
-            },
-            {
-              ingredientId: 4,
-              quantity: 32,
-            },
-            {
-              ingredientId: 5,
-              quantity: 4,
-            },
-          ],
-        },
-        essentialOils: {
-          create: [
-            {
-              ingredientId: 7,
-              quantity: 1.4,
-            },
-            {
-              ingredientId: 8,
-              quantity: 1.4,
-            },
-          ],
-        },
-      },
+
+    await db.batch.createMany({
+      data: batches,
     });
-    await db.batch.create({
-      data: {
-        createDate: "2024-10-23T08:00:00.000+09:00",
-        recipeId: 1,
-        amount: 600,
-        numBars: 6,
-      },
+
+    await db.batchSoapLabel.createMany({
+      data: labelContents,
     });
   } catch (error) {
-    console.warn("Please define your seed data.");
+    console.warn('Please define your seed data.');
     console.error(error);
   }
 }
@@ -264,7 +91,7 @@ async function main() {
 }
 
 main()
-  .catch((e) => {
+  .catch(e => {
     console.error(e);
     process.exit(1);
   })

@@ -148,10 +148,12 @@ model LabelStyle {
 }
 
 model BatchSoapLabel {
-  id        Int    @id @default(autoincrement())
-  prompt    String
-  magicCode String
-  imagePath String
+  id          Int    @id @default(autoincrement())
+  prompt      String
+  magicCode   String @unique
+  imagePathRg String
+  imagePathMd String
+  imagePathSm String
 
   batchId      Int
   batch        Batch            @relation(fields: [batchId], references: [id])

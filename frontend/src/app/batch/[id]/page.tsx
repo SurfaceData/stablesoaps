@@ -1,8 +1,8 @@
-import { gql } from "@apollo/client";
-import Image from "next/image";
+import {gql} from '@apollo/client';
+import Image from 'next/image';
 
-import { getClient } from "@/graphql/ApolloClient";
-import { Badge } from "@/components/ui/badge";
+import {getClient} from '@/graphql/ApolloClient';
+import {Badge} from '@/components/ui/badge';
 import {
   Card,
   CardContent,
@@ -10,7 +10,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -18,9 +18,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import { BatchForm } from "@/components/BatchForm";
+} from '@/components/ui/breadcrumb';
+import {Separator} from '@/components/ui/separator';
+import {BatchForm} from '@/components/BatchForm';
 
 const QUERY = gql`
   query batch($id: Int!) {
@@ -33,7 +33,7 @@ const QUERY = gql`
         id
         prompt
         magicCode
-        imagePath
+        imagePathSm
       }
       recipe {
         id
@@ -77,10 +77,10 @@ const QUERY = gql`
   }
 `;
 
-export default async function BatchPage({ params }) {
-  const { data, error } = await getClient().query({
+export default async function BatchPage({params}) {
+  const {data, error} = await getClient().query({
     query: QUERY,
-    variables: { id: parseInt(params.id) },
+    variables: {id: parseInt(params.id)},
   });
   const batch = data.batch;
   return (
@@ -110,7 +110,7 @@ export default async function BatchPage({ params }) {
           </CardHeader>
           <CardContent>
             <div className="space-y-8">
-              {batch.recipe.baseOils.map((oil) => (
+              {batch.recipe.baseOils.map(oil => (
                 <div key={oil.ingredient.id} className="flex items-center">
                   <div className="ml-4 space-y-1">
                     <p className="text-sm font-medium leading-none">
@@ -136,7 +136,7 @@ export default async function BatchPage({ params }) {
           </CardHeader>
           <CardContent>
             <div className="space-y-8">
-              {batch.recipe.essentialOils.map((oil) => (
+              {batch.recipe.essentialOils.map(oil => (
                 <div key={oil.ingredient.id} className="flex items-center">
                   <div className="ml-4 space-y-1">
                     <p className="text-sm font-medium leading-none">
@@ -181,11 +181,7 @@ export default async function BatchPage({ params }) {
             </CardHeader>
             <CardContent>
               <div className="flex justify-center">
-                <Image
-                  src={`/img/${label.magicCode}.png`}
-                  width="256"
-                  height="256"
-                />
+                <Image src={label.imagePathSm} width="256" height="256" />
               </div>
             </CardContent>
           </Card>
