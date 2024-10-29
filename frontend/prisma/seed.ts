@@ -14,6 +14,22 @@ const db = new PrismaClient();
 
 async function devSeed() {
   try {
+    const users = [
+      {
+        name: 'fozziethebeat',
+        email: 'fozziethebeat+admin@gmail.com',
+        roles: 'admin',
+      },
+      {
+        name: 'asakusakids',
+        email: 'fozziethebeat+tianyi@gmail.com',
+        roles: 'admin',
+      },
+    ];
+    await db.user.createManyAndReturn({
+      data: users,
+    });
+
     const ingredients = [
       {
         id: 1,

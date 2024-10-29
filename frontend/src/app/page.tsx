@@ -1,3 +1,4 @@
+import {withAuth} from '@/lib/withAuth';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -5,8 +6,8 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/breadcrumb';
+import {Button} from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -14,17 +15,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BatchesTable } from "@/components/BatchesTable";
-import { IngredientsTable } from "@/components/IngredientsTable";
-import { InventoryTable } from "@/components/InventoryTable";
-import { PurchaseOrderTable } from "@/components/PurchaseOrderTable";
-import { RecipeTable } from "@/components/RecipeTable";
+} from '@/components/ui/card';
+import {Input} from '@/components/ui/input';
+import {Label} from '@/components/ui/label';
+import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
+import {BatchesTable} from '@/components/BatchesTable';
+import {IngredientsTable} from '@/components/IngredientsTable';
+import {InventoryTable} from '@/components/InventoryTable';
+import {PurchaseOrderTable} from '@/components/PurchaseOrderTable';
+import {RecipeTable} from '@/components/RecipeTable';
 
-export default function Home() {
+export function Home() {
   return (
     <div className="flex flex-col gap-4 py-4 px-4">
       <Breadcrumb>
@@ -66,3 +67,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default withAuth(Home, 'admin', '/api/auth/signin');
