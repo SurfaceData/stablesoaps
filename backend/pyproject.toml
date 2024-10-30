@@ -11,15 +11,18 @@ classifiers = [
 ]
 dependencies = [
     "anthropic",
-    "bentoml",
     "jinja2",
     "jupyter",
-    "litellm",
+    "Pillow",
     "pydantic",
     "python-dotenv",
+    "sqids",
     "ruff",
 ]
 
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 80
