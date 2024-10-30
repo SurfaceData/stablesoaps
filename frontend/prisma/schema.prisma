@@ -208,6 +208,7 @@ model BatchSoapLabel {
   imagePathRg String
   imagePathMd String
   imagePathSm String
+  status      String @default("preparing")
 
   batchId      Int
   batch        Batch            @relation(fields: [batchId], references: [id])

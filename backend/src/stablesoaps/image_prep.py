@@ -9,6 +9,10 @@ def cm_to_pixels(cm: int, dpi=300) -> int:
     return int(inches * dpi)
 
 
+def pixels_to_cm(pixels: int, dpi=300) -> float:
+    return pixels / dpi * 2.54
+
+
 def create_padded_sticker(
     sticker: Image,
     sticker_size_px: int,
@@ -227,31 +231,39 @@ def create_avery_22807_label(images, dpi=300):
         cm_to_pixels(14.92),
     ]
     row_pos = [
-        cm_to_pixels(1.59),
-        cm_to_pixels(8.15),
-        cm_to_pixels(14.71),
-        cm_to_pixels(21),
+        cm_to_pixels(1.70),
+        cm_to_pixels(8.20),
+        cm_to_pixels(14.80),
+        cm_to_pixels(21.4),
     ]
     sheets = []
-    sheet = Image.new(
-        "RGBA",
-        (sheet_width_px, sheet_height_px),
-        color=(0, 0, 0, 0),
-    )
+    sheet = None
     for idx, sticker in enumerate(images):
-        if idx > 0 and idx % stickers_per_sheet == 0:
-            sheets.append(sheet)
+        if idx % stickers_per_sheet == 0:
+            if sheet:
+                sheets.append(sheet)
             sheet = Image.new(
                 "RGBA",
                 (sheet_width_px, sheet_height_px),
                 color=(0, 0, 0, 0),
             )
-        sticker.thumbnail((image_size_px, image_size_px))
+        sticker_copy = sticker.copy()
+        sticker_copy.thumbnail((image_size_px, image_size_px))
         row = (idx % stickers_per_sheet) // stickers_per_row
         col = (idx % stickers_per_sheet) % stickers_per_row
         x = col_pos[col]
         y = row_pos[row]
-        sheet.paste(sticker, (x, y))
+        if sticker_copy.mode == "RGBA":
+            background = Image.new(
+                "RGB",
+                sticker_copy.size,
+                (255, 255, 255),
+            )
+            background.paste(sticker_copy, mask=sticker_copy.split()[3])
+            sheet.paste(background, (x, y))
+        else:
+            sheet.paste(sticker_copy, (x, y))
+
     if len(images) % stickers_per_sheet != 0:
         sheets.append(sheet)
     return sheets

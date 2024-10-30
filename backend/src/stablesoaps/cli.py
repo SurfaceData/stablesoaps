@@ -5,6 +5,7 @@ import io
 import os
 
 from dotenv import load_dotenv
+from jinja2 import Template
 from pathlib import Path
 from pydantic import BaseModel
 from stablesoaps.image_prep import (
@@ -135,58 +136,105 @@ def cp(
         )
 
 
+class BatchSoapLabel(BaseModel):
+    magicCode: str
+    prompt: str
+    story: str
+    name: str
+    ingredients: List[str]
+
+
 @cli.command()
 @click.argument(
-    "label_contents",
+    "input_path",
     type=Path,
 )
+@click.argument(
+    "output_prefix",
+    type=str,
+)
 def create_label_sheets(
-    label_contents: Path,
+    input_path: Path,
+    output_prefix: str,
 ):
-    label_content_list = []
-    with open(label_contents) as f:
+    batch_soap_labels = []
+    with open(input_path) as f:
         json_data = json.load(f)
         for d in json_data:
-            label_content_list.append(LabelContentText(**d))
+            batch_soap_labels.append(BatchSoapLabel(**d))
+
+    external_label_template = Template(
+        """{{ name }}
+
+Ingredients: {{ ingredients }}
+
+Story:
+{{story_text}}"""
+    )
+    internal_label_template = Template(
+        """{{ name }} 
+
+magic code: {{ magic_code }}
+
+Ingredients: {{ ingredients }}
+
+Story:
+{{story_text}}"""
+    )
 
     label_size_px = cm_to_pixels(5)
     font_size = 24
     font = ImageFont.truetype("NotoSansSC-Regular.ttf", font_size)
 
-    graphics_sheets = create_avery_22807_label(
-        [
+    stickers = []
+    for batch_soap_label in batch_soap_labels:
+        stickers.append(
             create_circular_image(
                 Image.open(
-                    f"notebooks/data/result-{label_content.magic_code}.png"
+                    f"notebooks/data/result-{batch_soap_label.magicCode}.png"
                 ),
                 label_size_px,
             )
-            for label_content in label_content_list
-        ]
-    )
-    details_sheets = create_avery_22807_label(
-        [
+        )
+        stickers.append(
             create_details_label_circle(
-                label_content.label_text,
+                external_label_template.render(
+                    name=batch_soap_label.name,
+                    ingredients=".".join(batch_soap_label.ingredients),
+                    story_text=batch_soap_label.story,
+                ),
+                label_size_px,
+                font,
+                font_size,
+                "lightgray",
+                wrap_factor=2.5,
+            )
+        )
+        stickers.append(
+            create_details_label_circle(
+                internal_label_template.render(
+                    name=batch_soap_label.name,
+                    ingredients=".".join(batch_soap_label.ingredients),
+                    story_text=batch_soap_label.story,
+                    magic_code=batch_soap_label.magicCode,
+                ),
                 label_size_px,
                 font,
                 font_size,
                 "lightblue",
                 wrap_factor=2.5,
             )
-            for label_content in label_content_list
-        ]
-    )
-    for idx, (graphics_sheet, details_sheet) in enumerate(
-        zip(graphics_sheets, details_sheets)
-    ):
-        graphics_sheet.save(
-            f"image_sheet_241029_{idx}.png",
-            dpi=(300, 300),
         )
-        details_sheet.save(
-            f"ingredient_sheet_241029_{idx}.png",
-            dpi=(300, 300),
+
+    sheets = create_avery_22807_label(
+        stickers,
+    )
+    for idx, sheet in enumerate(sheets):
+        sheet.save(
+            f"{output_prefix}_{idx}.pdf",
+            "PDF",
+            resolution=300,
+            save_all=True,
         )
 
 
