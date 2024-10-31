@@ -1,9 +1,9 @@
-import { gql } from "@apollo/client";
-import Link from "next/link";
+import {gql} from '@apollo/client';
+import Link from 'next/link';
 
-import { getClient } from "@/graphql/ApolloClient";
+import {getClient} from '@/graphql/ApolloClient';
 
-import { Button } from "@/components/ui/button";
+import {Button} from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -19,7 +19,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 
 const QUERY = gql`
   query Recipes {
@@ -65,14 +65,14 @@ const QUERY = gql`
 
 export async function RecipeTable() {
   try {
-    const { data, error } = await getClient().query({ query: QUERY });
-    const costPer100 = (recipe) => {
-      const { baseOils, essentialOils } = recipe;
+    const {data, error} = await getClient().query({query: QUERY});
+    const costPer100 = recipe => {
+      const {baseOils, essentialOils} = recipe;
       const baseCost = baseOils
-        .map(({ ingredient, quantity }) => quantity * ingredient.costPerUnit)
+        .map(({ingredient, quantity}) => quantity * ingredient.costPerUnit)
         .reduce((acc, cost) => acc + cost, 0.0);
       const essentialCost = essentialOils
-        .map(({ ingredient, quantity }) => quantity * ingredient.costPerUnit)
+        .map(({ingredient, quantity}) => quantity * ingredient.costPerUnit)
         .reduce((acc, cost) => acc + cost, 0.0);
       return baseCost + essentialCost;
     };
@@ -81,7 +81,7 @@ export async function RecipeTable() {
         <CardHeader className="px-7">
           <CardTitle>Soap Recipes</CardTitle>
           <CardDescription className="flex justify-between">
-            <Link href="/recipe">
+            <Link href="/admin/recipe">
               <Button>New Recipe</Button>
             </Link>
           </CardDescription>
@@ -110,7 +110,7 @@ export async function RecipeTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.recipes.map((recipe) => (
+              {data.recipes.map(recipe => (
                 <TableRow key={recipe.id}>
                   <TableCell>
                     <div className="font-medium">{recipe.id}</div>
@@ -132,16 +132,16 @@ export async function RecipeTable() {
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     {recipe.baseOils
-                      .map(({ ingredient }) => ingredient.name)
-                      .join(", ")}
+                      .map(({ingredient}) => ingredient.name)
+                      .join(', ')}
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     {recipe.essentialOils
-                      .map(({ ingredient }) => ingredient.name)
-                      .join(", ")}
+                      .map(({ingredient}) => ingredient.name)
+                      .join(', ')}
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
-                    <Link href={`/recipe/${recipe.id}`}>Edit</Link>
+                    <Link href={`/admin/recipe/${recipe.id}`}>Edit</Link>
                   </TableCell>
                 </TableRow>
               ))}

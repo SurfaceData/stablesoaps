@@ -1,5 +1,5 @@
-import { gql } from "@apollo/client";
-import { getClient } from "@/graphql/ApolloClient";
+import {gql} from '@apollo/client';
+import {getClient} from '@/graphql/ApolloClient';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,8 +7,8 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { BatchForm } from "@/components/BatchForm";
+} from '@/components/ui/breadcrumb';
+import {BatchForm} from '@/components/BatchForm';
 
 const QUERY = gql`
   query batch($id: Int!) {
@@ -58,21 +58,25 @@ const QUERY = gql`
   }
 `;
 
-export default async function EditBatchPage({ params }) {
-  const { data, error } = await getClient().query({
+export default async function EditBatchPage({params}) {
+  const {data, error} = await getClient().query({
     query: QUERY,
-    variables: { id: parseInt(params.id) },
+    variables: {id: parseInt(params.id)},
   });
   return (
     <div className="flex flex-col gap-4 py-4 px-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">Root</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href={`/batch/${params.id}`}>
+            <BreadcrumbLink href="/admin">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/admin/batch/${params.id}`}>
               Batch {params.id}
             </BreadcrumbLink>
           </BreadcrumbItem>

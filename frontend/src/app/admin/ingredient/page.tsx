@@ -1,4 +1,5 @@
-import { EditIngredientForm } from "@/components/EditIngredientForm";
+import {withAuth} from '@/lib/withAuth';
+import {EditIngredientForm} from '@/components/EditIngredientForm';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,15 +7,19 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from '@/components/ui/breadcrumb';
 
-export default function IngredientPage() {
+export function IngredientPage() {
   return (
     <div className="flex flex-col gap-4 py-4 px-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">Root</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/admin">Home</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -27,3 +32,5 @@ export default function IngredientPage() {
     </div>
   );
 }
+
+export default withAuth(IngredientPage, 'admin', '/');

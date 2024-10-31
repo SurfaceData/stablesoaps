@@ -80,6 +80,8 @@ export const typeDefs = gql`
     imagePathRg: String!
     imagePathMd: String!
     imagePathSm: String!
+
+    recipe: Recipe!
   }
 
   input IngredientInput {
@@ -139,6 +141,7 @@ export const typeDefs = gql`
     inventoryItems: [InventoryItem!]!
     purchaseOrders: [PurchaseOrder!]!
     purchaseOrder(id: Int!): PurchaseOrder
+    recentBatchSoapLabels: [BatchSoapLabel!]!
     recipes: [Recipe!]!
     recipe(id: Int!): Recipe
   }
@@ -238,6 +241,12 @@ export const resolvers = {
           baseOils: true,
           essentialOils: true,
         },
+      });
+    },
+
+    recentBatchSoapLabels: () => {
+      return prisma.batchSoapLabel.findMany({
+        take: 5,
       });
     },
 
@@ -499,6 +508,15 @@ export const resolvers = {
       return prisma.inventoryItem
         .findUnique({where: {id: inventoryItem.id}})
         .ingredient();
+    },
+  },
+
+  BatchSoapLabel: {
+    recipe: async label => {
+      const {recipe} = await prisma.batchSoapLabel
+        .findUnique({where: {id: label.id}})
+        .batch({select: {recipe: true}});
+      return recipe;
     },
   },
 

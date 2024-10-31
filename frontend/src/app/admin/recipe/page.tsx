@@ -1,3 +1,4 @@
+import {withAuth} from '@/lib/withAuth';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -5,16 +6,20 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { RecipeForm } from "@/components/RecipeForm";
+} from '@/components/ui/breadcrumb';
+import {RecipeForm} from '@/components/RecipeForm';
 
-export default function NewRecipePage() {
+export function NewRecipePage() {
   return (
     <div className="flex flex-col gap-4 py-4 px-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">Root</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/Admin">Home</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -26,3 +31,5 @@ export default function NewRecipePage() {
     </div>
   );
 }
+
+export default withAuth(NewRecipePage, 'admin', '/');

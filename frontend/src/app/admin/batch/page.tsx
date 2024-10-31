@@ -1,3 +1,4 @@
+import {withAuth} from '@/lib/withAuth';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -5,16 +6,20 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { NewBatchForm } from "@/components/NewBatchForm";
+} from '@/components/ui/breadcrumb';
+import {NewBatchForm} from '@/components/NewBatchForm';
 
-export default function NewBatchPage() {
+export function NewBatchPage() {
   return (
     <div className="flex flex-col gap-4 py-4 px-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">Root</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/admin">Home</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -26,3 +31,5 @@ export default function NewBatchPage() {
     </div>
   );
 }
+
+export default withAuth(NewBatchPage, 'admin', '/');

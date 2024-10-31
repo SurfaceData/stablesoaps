@@ -1,9 +1,9 @@
-import { gql } from "@apollo/client";
-import Link from "next/link";
+import {gql} from '@apollo/client';
+import Link from 'next/link';
 
-import { getClient } from "@/graphql/ApolloClient";
+import {getClient} from '@/graphql/ApolloClient';
 
-import { Button } from "@/components/ui/button";
+import {Button} from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -19,7 +19,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 
 const QUERY = gql`
   query PurchaseOrders {
@@ -45,13 +45,13 @@ const QUERY = gql`
 
 export async function PurchaseOrderTable() {
   try {
-    const { data, error } = await getClient().query({ query: QUERY });
+    const {data, error} = await getClient().query({query: QUERY});
     return (
       <Card x-chunk="dashboard-05-chunk-3">
         <CardHeader className="px-7">
           <CardTitle>Purchase Orders</CardTitle>
           <CardDescription className="flex justify-between">
-            <Link href="/purchase-order">
+            <Link href="/admin/purchase-order">
               <Button>New Order</Button>
             </Link>
           </CardDescription>
@@ -77,7 +77,7 @@ export async function PurchaseOrderTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.purchaseOrders.map((order) => (
+              {data.purchaseOrders.map(order => (
                 <TableRow key={order.id}>
                   <TableCell>
                     <div className="font-medium">{order.id}</div>
@@ -99,11 +99,11 @@ export async function PurchaseOrderTable() {
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     {order.items
-                      .map(({ ingredient }) => ingredient.name)
-                      .join(", ")}
+                      .map(({ingredient}) => ingredient.name)
+                      .join(', ')}
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
-                    <Link href={`/purchase-order/${order.id}`}>Edit</Link>
+                    <Link href={`/admin/purchase-order/${order.id}`}>Edit</Link>
                   </TableCell>
                 </TableRow>
               ))}

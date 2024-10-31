@@ -1,9 +1,9 @@
-import { gql } from "@apollo/client";
-import Link from "next/link";
+import {gql} from '@apollo/client';
+import Link from 'next/link';
 
-import { getClient } from "@/graphql/ApolloClient";
+import {getClient} from '@/graphql/ApolloClient';
 
-import { Button } from "@/components/ui/button";
+import {Button} from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -19,7 +19,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 
 const QUERY = gql`
   query Batches {
@@ -55,18 +55,18 @@ const QUERY = gql`
 
 export async function BatchesTable() {
   try {
-    const { data, error } = await getClient().query({ query: QUERY });
-    const costPer100 = (recipe) => {
-      const { baseOils, essentialOils } = recipe;
+    const {data, error} = await getClient().query({query: QUERY});
+    const costPer100 = recipe => {
+      const {baseOils, essentialOils} = recipe;
       const baseCost = baseOils
-        .map(({ ingredient, quantity }) => quantity * ingredient.costPerUnit)
+        .map(({ingredient, quantity}) => quantity * ingredient.costPerUnit)
         .reduce((acc, cost) => acc + cost, 0.0);
       const essentialCost = essentialOils
-        .map(({ ingredient, quantity }) => quantity * ingredient.costPerUnit)
+        .map(({ingredient, quantity}) => quantity * ingredient.costPerUnit)
         .reduce((acc, cost) => acc + cost, 0.0);
       return baseCost + essentialCost;
     };
-    const costPerBatch = (batch) => {
+    const costPerBatch = batch => {
       return (costPer100(batch.recipe) * batch.amount) / 100 / batch.numBars;
     };
     return (
@@ -74,7 +74,7 @@ export async function BatchesTable() {
         <CardHeader className="px-7">
           <CardTitle>Batches</CardTitle>
           <CardDescription className="flex justify-between">
-            <Link href="/batch">
+            <Link href="/admin/batch">
               <Button>New Batch</Button>
             </Link>
           </CardDescription>
@@ -101,7 +101,7 @@ export async function BatchesTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.batches.map((batch) => (
+              {data.batches.map(batch => (
                 <TableRow key={batch.id}>
                   <TableCell>
                     <div className="font-medium">{batch.id}</div>
@@ -122,8 +122,8 @@ export async function BatchesTable() {
                     {batch.numBars}
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
-                    <Link href={`/batch/${batch.id}`}>View</Link>
-                    <Link href={`/batch/${batch.id}/edit`}>Edit</Link>
+                    <Link href={`/admin/batch/${batch.id}`}>View</Link>
+                    <Link href={`/admin/batch/${batch.id}/edit`}>Edit</Link>
                   </TableCell>
                 </TableRow>
               ))}

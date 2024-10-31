@@ -1,5 +1,7 @@
-import { gql } from "@apollo/client";
-import { getClient } from "@/graphql/ApolloClient";
+import {gql} from '@apollo/client';
+
+import {withAuth} from '@/lib/withAuth';
+import {getClient} from '@/graphql/ApolloClient';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,8 +9,8 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { RecipeForm } from "@/components/RecipeForm";
+} from '@/components/ui/breadcrumb';
+import {RecipeForm} from '@/components/RecipeForm';
 
 const QUERY = gql`
   query Recipe($id: Int!) {
@@ -55,17 +57,21 @@ const QUERY = gql`
   }
 `;
 
-export default async function RecipeEditPage({ params }) {
-  const { data, error } = await getClient().query({
+export async function RecipeEditPage({params}) {
+  const {data, error} = await getClient().query({
     query: QUERY,
-    variables: { id: parseInt(params.id) },
+    variables: {id: parseInt(params.id)},
   });
   return (
     <div className="flex flex-col gap-4 py-4 px-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">Root</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/admin">Home</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -77,3 +83,5 @@ export default async function RecipeEditPage({ params }) {
     </div>
   );
 }
+
+export default withAuth(RecipeEditPage, 'admin', '/');

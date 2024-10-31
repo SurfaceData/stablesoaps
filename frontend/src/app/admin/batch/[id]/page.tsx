@@ -1,6 +1,7 @@
 import {gql} from '@apollo/client';
 import Image from 'next/image';
 
+import {withAuth} from '@/lib/withAuth';
 import {getClient} from '@/graphql/ApolloClient';
 import {Badge} from '@/components/ui/badge';
 import {
@@ -77,7 +78,7 @@ const QUERY = gql`
   }
 `;
 
-export default async function BatchPage({params}) {
+export async function BatchPage({params}) {
   const {data, error} = await getClient().query({
     query: QUERY,
     variables: {id: parseInt(params.id)},
@@ -88,7 +89,11 @@ export default async function BatchPage({params}) {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">Root</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/admin">Home</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -190,3 +195,4 @@ export default async function BatchPage({params}) {
     </div>
   );
 }
+export default withAuth(BatchPage, 'admin', '/');

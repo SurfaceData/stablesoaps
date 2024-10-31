@@ -1,9 +1,9 @@
-import { gql } from "@apollo/client";
-import Link from "next/link";
+import {gql} from '@apollo/client';
+import Link from 'next/link';
 
-import { getClient } from "@/graphql/ApolloClient";
+import {getClient} from '@/graphql/ApolloClient';
 
-import { Button } from "@/components/ui/button";
+import {Button} from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -19,7 +19,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 
 const QUERY = gql`
   query Ingredients {
@@ -36,14 +36,14 @@ const QUERY = gql`
 
 export async function IngredientsTable() {
   try {
-    const { data, error } = await getClient().query({ query: QUERY });
+    const {data, error} = await getClient().query({query: QUERY});
     return (
       <Card x-chunk="dashboard-05-chunk-3">
         <CardHeader className="px-7">
           <CardTitle>Ingredients</CardTitle>
           <CardDescription className="flex justify-between">
             Soap Making Ingredients
-            <Link href="/ingredient">
+            <Link href="/admin/ingredient">
               <Button>New Ingredient</Button>
             </Link>
           </CardDescription>
@@ -65,7 +65,7 @@ export async function IngredientsTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.ingredients.map((ingredient) => (
+              {data.ingredients.map(ingredient => (
                 <TableRow key={ingredient.id}>
                   <TableCell>
                     <div className="font-medium">{ingredient.id}</div>
@@ -83,7 +83,9 @@ export async function IngredientsTable() {
                     {ingredient.costPerUnit.toFixed(2)}
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
-                    <Link href={`/ingredient/${ingredient.id}`}>Edit</Link>
+                    <Link href={`/admin/ingredient/${ingredient.id}`}>
+                      Edit
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}
