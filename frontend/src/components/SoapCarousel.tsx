@@ -25,6 +25,7 @@ const QUERY = gql`
   query RecentBatchSoapLabels {
     recentBatchSoapLabels {
       id
+      prompt
       imagePathMd
       recipe {
         name
@@ -44,7 +45,12 @@ export async function SoapCarousel() {
               <div className="p-1">
                 <Card>
                   <CardContent className="flex flex-col items-center justify-center p-6">
-                    <Image src={label.imagePathMd} width="512" height="512" />
+                    <Image
+                      alt={label.prompt}
+                      src={label.imagePathMd}
+                      width="512"
+                      height="512"
+                    />
                     <div>{label.recipe.name}</div>
                   </CardContent>
                 </Card>

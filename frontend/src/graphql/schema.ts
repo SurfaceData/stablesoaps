@@ -141,7 +141,7 @@ export const typeDefs = gql`
     inventoryItems: [InventoryItem!]!
     purchaseOrders: [PurchaseOrder!]!
     purchaseOrder(id: Int!): PurchaseOrder
-    recentBatchSoapLabels: [BatchSoapLabel!]!
+    recentBatchSoapLabels(limit: Int): [BatchSoapLabel!]!
     recipes: [Recipe!]!
     recipe(id: Int!): Recipe
   }
@@ -244,9 +244,9 @@ export const resolvers = {
       });
     },
 
-    recentBatchSoapLabels: () => {
+    recentBatchSoapLabels: (a, {limit}) => {
       return prisma.batchSoapLabel.findMany({
-        take: 5,
+        take: limit || 5,
       });
     },
 
