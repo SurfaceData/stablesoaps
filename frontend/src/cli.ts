@@ -215,74 +215,126 @@ program
 
 interface CreateBatchLabelsOptions {
   batch: number;
+  output: string;
 }
 
 program
-  .command('create-batch-labels')
+  .command('prepare-batch-labels')
   .description('Creates Batch Labels')
   .requiredOption('-b, --batch <batch id>', 'Batch ID', parseInt)
+  .requiredOption('-o, --output <path>', 'JSON output path')
   .action(async (options: CreateBatchLabelsOptions) => {
-    /*
     const sqids = new Sqids();
     const batch = await db.batch.findUnique({
       where: {id: options.batch},
+      select: {
+        id: true,
+        numBars: true,
+        batchSoapLabel: true,
+      },
     });
     if (!batch) {
       throw new Error('No batch found');
     }
 
+    // Simple case, fill in any gaps.
+    if (!batch.batchSoapLabel) {
+      const numLabels = batch.numBars + 1;
+      const labelStyles = await db.labelStyle.findMany();
+      const labelScenePrompt = await db.labelScenePrompt.findMany();
+      const sampledScenePrompt = sample(labelScenePrompt, {size: 1})[0];
+      const sampledStyles = sample(labelStyles, {size: numLabels});
+
+      const labels: BatchSoapLabel[] = [];
+      const bar = new ProgressBar(':bar :percent :etas', {
+        total: numLabels,
+        width: 40,
+      });
+
+      for (var i = 0; i < numLabels; ++i) {
+        const style = sampledStyles[i];
+        const prompt = `${sampledScenePrompt.prompt}  ${style.text}`;
+        const magicCode = sqids.encode([
+          batch.id,
+          sampledScenePrompt.sceneId,
+          sampledScenePrompt.id,
+          style.id,
+          i,
+        ]);
+
+        const label: BatchSoapLabel = {
+          magicCode,
+          prompt,
+          imagePathRg: `/images/${magicCode}.png`,
+          imagePathMd: `/images/${magicCode}_medium.png`,
+          imagePathSm: `/images/${magicCode}_small.png`,
+          batchId: batch.id,
+          labelSceneId: sampledScenePrompt.id,
+          labelStyleId: style.id,
+        };
+        labels.push(label);
+        bar.tick();
+      }
+      await db.batchSoapLabel.createMany({
+        data: labels,
+      });
+    }
+    // Now fill in any missing labels.
+    const numLabels = batch.numBars + 1;
+    const labelScenePrompt = await db.labelScenePrompt.findUnique({
+      where: {id: batch.batchSoapLabel[0].labelSceneId},
+    });
+    if (!labelScenePrompt) {
+      throw new Error('Invalid label scene prompt');
+    }
+
     const labelStyles = await db.labelStyle.findMany();
-    const labelScenePrompt = await db.labelScenePrompt.findMany();
-    const sampledScenePrompt = sample(labelScenePrompt, {size: 1})[0];
-    const sampledStyles = sample(labelStyles, {size: batch.numBars});
+    const sampledStyles = sample(labelStyles, {size: numLabels});
 
     const labels: BatchSoapLabel[] = [];
-    await db.batchSoapLabel.deleteMany({
-      where: {batchId: batch.id},
-    });
     const bar = new ProgressBar(':bar :percent :etas', {
-      total: batch.numBars,
+      total: numLabels,
       width: 40,
     });
 
-    for (var i = 0; i < batch.numBars; ++i) {
+    const completedLabels = new Set();
+    for (const label of batch.batchSoapLabel) {
+      const parts = sqids.decode(label.magicCode);
+      completedLabels.add(parts[4]);
+    }
+
+    for (var i = 0; i < numLabels; ++i) {
+      if (completedLabels.has(i)) {
+        bar.tick();
+        continue;
+      }
       const style = sampledStyles[i];
-      const prompt = `${sampledScenePrompt.prompt}  ${style.text}`;
+      const prompt = `${labelScenePrompt.prompt}  ${style.text}`;
       const magicCode = sqids.encode([
         batch.id,
-        sampledScenePrompt.sceneId,
-        sampledScenePrompt.id,
+        labelScenePrompt.sceneId,
+        labelScenePrompt.id,
         style.id,
         i,
       ]);
 
-      const imageResult = await axios.post(
-        `${process.env.IMAGE_GEN_URL}/txt2img`,
-        {
-          prompt: prompt,
-          num_inference_steps: 5,
-        },
-        {responseType: 'arraybuffer'},
-      );
-      const imagePath = `public/img/${magicCode}.png`;
-      writeFileSync(imagePath, imageResult.data);
-
       const label: BatchSoapLabel = {
         magicCode,
-        imagePath,
         prompt,
+        imagePathRg: `/images/${magicCode}.png`,
+        imagePathMd: `/images/${magicCode}_medium.png`,
+        imagePathSm: `/images/${magicCode}_small.png`,
         batchId: batch.id,
-        labelSceneId: sampledScenePrompt.id,
+        labelSceneId: labelScenePrompt.id,
         labelStyleId: style.id,
       };
       labels.push(label);
       bar.tick();
     }
-    const results = await db.batchSoapLabel.createMany({
+    await db.batchSoapLabel.createMany({
       data: labels,
     });
-    console.log(results);
-   */
+    writeFileSync(options.output, JSON.stringify(labels, null, 4));
   });
 
 program.parse();

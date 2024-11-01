@@ -1,8 +1,9 @@
 import boto3
 import click
-import json
 import io
+import json
 import os
+import requests
 
 from dotenv import load_dotenv
 from jinja2 import Template
@@ -36,6 +37,7 @@ def cli():
 
 
 def resize_and_upload_image(
+    img: Image,
     magic_code: str,
     bucket_name: str,
     resize_details: List[ResizeDetail],
@@ -49,52 +51,120 @@ def resize_and_upload_image(
         region_name=os.getenv("AWS_REGION"),
     )
 
-    # Open and resize image
-    image_path = f"notebooks/data/result-{magic_code}.png"
-    with Image.open(image_path) as img:
-        if img.mode == "RGBA":
-            img = img.convert("RGB")
+    if img.mode == "RGBA":
+        img = img.convert("RGB")
 
+    buffer = io.BytesIO()
+    img.save(
+        buffer,
+        format="PNG",
+        optimize=True,
+        quality=quality,
+    )
+    buffer.seek(0)
+
+    s3_client.upload_fileobj(
+        buffer,
+        bucket_name,
+        f"images/{magic_code}.png",
+        ExtraArgs={"ContentType": "image/png"},
+    )
+
+    for resize_detail in resize_details:
+        img_resize = img.copy()
+
+        # Resize image maintaining aspect ratio
+        img_resize.thumbnail(
+            (resize_detail.width, resize_detail.height),
+            Image.Resampling.LANCZOS,
+        )
+
+        # Save to bytes buffer
         buffer = io.BytesIO()
-        img.save(
+        img_resize.save(
             buffer,
             format="PNG",
             optimize=True,
             quality=quality,
         )
         buffer.seek(0)
-
         s3_client.upload_fileobj(
             buffer,
             bucket_name,
-            f"images/{magic_code}.png",
+            f"images/{magic_code}_{resize_detail.suffix}.png",
             ExtraArgs={"ContentType": "image/png"},
         )
 
-        for resize_detail in resize_details:
-            img_resize = img.copy()
 
-            # Resize image maintaining aspect ratio
-            img_resize.thumbnail(
-                (resize_detail.width, resize_detail.height),
-                Image.Resampling.LANCZOS,
-            )
+class LabelContent(BaseModel):
+    magicCode: str
+    prompt: str
 
-            # Save to bytes buffer
-            buffer = io.BytesIO()
-            img_resize.save(
-                buffer,
-                format="PNG",
-                optimize=True,
-                quality=quality,
-            )
-            buffer.seek(0)
-            s3_client.upload_fileobj(
-                buffer,
-                bucket_name,
-                f"images/{magic_code}_{resize_detail.suffix}.png",
-                ExtraArgs={"ContentType": "image/png"},
-            )
+
+@cli.command()
+@click.option(
+    "--label_contents",
+    required=True,
+    type=Path,
+)
+@click.option(
+    "--url",
+    required=True,
+    type=str,
+)
+@click.option(
+    "--bucket",
+    "-b",
+    required=True,
+    help="S3 bucket to upload to",
+)
+@click.option(
+    "--num_steps",
+    default=20,
+    help="Number of inference steps to use",
+)
+def create_images(
+    label_contents: Path,
+    url: str,
+    bucket: str,
+    num_steps: int,
+):
+    label_contents_list = []
+    with open(label_contents) as f:
+        json_data = json.load(f)
+        for d in json_data:
+            label_contents_list.append(LabelContent(**d))
+
+    for label in label_contents_list:
+        response = requests.post(
+            f"{url}/txt2img",
+            json={
+                "prompt": label.prompt,
+                "num_inference_steps": num_steps,
+            },
+            stream=True,
+        )
+        image_path = f"/tmp/{label.magicCode}.png"
+        with open(image_path, "wb") as file:
+            file.write(response.content)
+        image = Image.open(image_path)
+        resize_and_upload_image(
+            image,
+            label.magicCode,
+            bucket,
+            [
+                ResizeDetail(
+                    suffix="small",
+                    width="256",
+                    height="256",
+                ),
+                ResizeDetail(
+                    suffix="medium",
+                    width="512",
+                    height="512",
+                ),
+            ],
+        )
 
 
 @cli.command()
@@ -118,7 +188,10 @@ def cp(
         for d in json_data:
             label_content_list.append(LabelContentText(**d))
     for label_content in label_content_list:
+        image_path = f"notebooks/data/result-{label_content.magic_code}.png"
+        image = Image.open(image_path)
         resize_and_upload_image(
+            image,
             label_content.magic_code,
             bucket,
             [

@@ -328,5 +328,60 @@
         "batchId": 5,
         "labelSceneId": 2,
         "labelStyleId": 9
+    },
+    {
+        "magicCode": "se8ajOCtQv",
+        "prompt": "The magical Flower Fruit Mountain rising from the sea, with various mythical creatures like phoenixes, qilins, and spiritual foxes inhabiting its peaks and caves  in Pixel Art Style",
+        "status": "generated",
+        "imagePathRg": "/images/se8ajOCtQv.png",
+        "imagePathMd": "/images/se8ajOCtQv_medium.png",
+        "imagePathSm": "/images/se8ajOCtQv_small.png",
+        "batchId": 1,
+        "labelSceneId": 4,
+        "labelStyleId": 8
+    },
+    {
+        "magicCode": "FpG8X1Kd3N",
+        "prompt": "The magical Flower Fruit Mountain rising from the sea, with various mythical creatures like phoenixes, qilins, and spiritual foxes inhabiting its peaks and caves  in Papier Mache Style",
+        "status": "generated",
+        "imagePathRg": "/images/FpG8X1Kd3N.png",
+        "imagePathMd": "/images/FpG8X1Kd3N_medium.png",
+        "imagePathSm": "/images/FpG8X1Kd3N_small.png",
+        "batchId": 2,
+        "labelSceneId": 4,
+        "labelStyleId": 11
+    },
+    {
+        "magicCode": "9pFgqZUejq",
+        "prompt": "The magical Flower Fruit Mountain rising from the sea, with various mythical creatures like phoenixes, qilins, and spiritual foxes inhabiting its peaks and caves  in  Clay Animation style",
+        "status": "generated",
+        "imagePathRg": "/images/9pFgqZUejq.png",
+        "imagePathMd": "/images/9pFgqZUejq_medium.png",
+        "imagePathSm": "/images/9pFgqZUejq_small.png",
+        "batchId": 3,
+        "labelSceneId": 4,
+        "labelStyleId": 1
+    },
+    {
+        "magicCode": "mPxn3qHsd2",
+        "prompt": "Pangu, a primordial giant, emerging from a cosmic egg, splitting the chaotic darkness into sky and earth, with swirling energies of yin and yang surrounding him  by Makoto Shinkai",
+        "status": "generated",
+        "imagePathRg": "/images/mPxn3qHsd2.png",
+        "imagePathMd": "/images/mPxn3qHsd2_medium.png",
+        "imagePathSm": "/images/mPxn3qHsd2_small.png",
+        "batchId": 4,
+        "labelSceneId": 0,
+        "labelStyleId": 0
+    },
+    {
+        "magicCode": "GQUnco9SLK",
+        "prompt": "The formation of the universe: sun, moon, stars, and constellations emerging from primordial mist, with faint outlines of mountains, water, and land below  in Picture-Story Book Style",
+        "status": "generated",
+        "imagePathRg": "/images/GQUnco9SLK.png",
+        "imagePathMd": "/images/GQUnco9SLK_medium.png",
+        "imagePathSm": "/images/GQUnco9SLK_small.png",
+        "batchId": 5,
+        "labelSceneId": 2,
+        "labelStyleId": 7
     }
 ]
