@@ -6,6 +6,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import {UserSoapsGrid} from '@/components/UserSoapsGrid';
 import {SoapCarousel} from '@/components/SoapCarousel';
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
       <div className="flex justify-center">
         <SoapCarousel />
       </div>
+      <UserSoapsGrid />
     </div>
   );
 }

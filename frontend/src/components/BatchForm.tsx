@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { gql, useMutation } from "@apollo/client";
-import { Button } from "@/components/ui/button";
+import {useRouter} from 'next/navigation';
+import {useForm} from 'react-hook-form';
+import {gql, useMutation} from '@apollo/client';
+import {Button} from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -20,9 +20,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/form';
+import {Input} from '@/components/ui/input';
+import {Label} from '@/components/ui/label';
 
 const UPDATE_MUTATION = gql`
   mutation UpdateBatch($id: Int!, $input: UpdateBatchInput!) {
@@ -35,20 +35,18 @@ const UPDATE_MUTATION = gql`
 interface EditBatchInput {
   numBars: number;
 }
-export function BatchForm({ batch }) {
+export function BatchForm({batch}) {
   const router = useRouter();
   const form = useForm<EditBatchInput>({
     defaultValues: batch,
   });
   const [update, unused2] = useMutation(UPDATE_MUTATION, {
     onCompleted: () => {
-      router.push("/");
+      router.push('/');
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    console.log(batch);
+  const onSubmit = data => {
     update({
       variables: {
         id: batch.id,
@@ -77,7 +75,7 @@ export function BatchForm({ batch }) {
                       name="numBars"
                       step="1"
                       className="w-full"
-                      {...form.register("numBars", {
+                      {...form.register('numBars', {
                         valueAsNumber: true,
                       })}
                     />

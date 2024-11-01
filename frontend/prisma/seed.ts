@@ -1,5 +1,6 @@
 import type {Prisma} from '@prisma/client';
 import {PrismaClient} from '@prisma/client';
+import Sqids from 'sqids';
 
 import baseOils from '../data/base_oils.json';
 import essentialOils from '../data/essential_oils.json';
@@ -13,6 +14,7 @@ import labelContents from '../data/label_contents.json';
 const db = new PrismaClient();
 
 async function devSeed() {
+  const sqids = new Sqids();
   try {
     const users = [
       {
@@ -26,7 +28,7 @@ async function devSeed() {
         roles: 'admin',
       },
     ];
-    await db.user.createManyAndReturn({
+    const createdUsers = await db.user.createManyAndReturn({
       data: users,
     });
 
@@ -93,7 +95,7 @@ async function devSeed() {
       data: batches,
     });
 
-    await db.batchSoapLabel.createMany({
+    const labels = await db.batchSoapLabel.createManyAndReturn({
       data: labelContents.map(label => ({
         ...label,
         imagePathRg: `${process.env.IMAGE_HOST}${label.imagePathRg}`,
@@ -101,6 +103,21 @@ async function devSeed() {
         imagePathSm: `${process.env.IMAGE_HOST}${label.imagePathSm}`,
       })),
     });
+
+    // Now go through the batch soap labels and some as belonging to the first
+    // admin.
+    for (const label of labels) {
+      const ids = sqids.decode(label.magicCode);
+      if (ids[4] !== 6) {
+        continue;
+      }
+      await db.batchSoapLabel.update({
+        where: {id: label.id},
+        data: {
+          ownerId: createdUsers[0].id,
+        },
+      });
+    }
   } catch (error) {
     console.warn('Please define your seed data.');
     console.error(error);

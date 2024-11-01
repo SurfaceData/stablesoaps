@@ -21,7 +21,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  roles String @default("general")
+  roles String           @default("general")
+  soaps BatchSoapLabel[]
 }
 
 model Account {
@@ -233,4 +234,7 @@ model BatchSoapLabel {
   labelScene   LabelScenePrompt @relation(fields: [labelSceneId], references: [id])
   labelStyleId Int
   labelStyle   LabelStyle       @relation(fields: [labelStyleId], references: [id])
+
+  ownerId String?
+  owner   User?   @relation(fields: [ownerId], references: [id])
 }

@@ -147,6 +147,7 @@ export const typeDefs = gql`
     recentBatchSoapLabels(limit: Int): [BatchSoapLabel!]!
     recipes: [Recipe!]!
     recipe(id: Int!): Recipe
+    userSoaps: [BatchSoapLabel!]!
   }
 
   type Mutation {
@@ -249,6 +250,15 @@ export const resolvers = {
           water: true,
           baseOils: true,
           essentialOils: true,
+        },
+      });
+    },
+
+    userSoaps: (a, b, {user}) => {
+      return prisma.batchSoapLabel.findMany({
+        where: {ownerId: user.id},
+        orderBy: {
+          createDate: 'desc',
         },
       });
     },
@@ -371,8 +381,6 @@ export const resolvers = {
 
     addRecipe: (a, {input}) => {
       const {water, lye, baseOils, essentialOils, ...data} = input;
-      console.log(water);
-      console.log(lye);
       return prisma.recipe.create({
         data: {
           ...data,
@@ -550,6 +558,9 @@ export const resolvers = {
     availability: label => {
       if (label.status !== 'done') {
         return label.status;
+      }
+      if (label.ownerId) {
+        return 'claimed';
       }
       return 'available';
     },
