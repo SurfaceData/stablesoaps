@@ -183,6 +183,8 @@ model Batch {
   recipe         Recipe           @relation(fields: [recipeId], references: [id])
   amount         Float
   numBars        Int
+  status         String @default("curing")
+  labelStatus    String @default("preparing")
   batchSoapLabel BatchSoapLabel[]
 }
 

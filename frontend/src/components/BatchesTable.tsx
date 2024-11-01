@@ -1,8 +1,11 @@
-import {gql} from '@apollo/client';
+'use client';
+
+import {gql, useSuspenseQuery, useMutation} from '@apollo/client';
+import {ColumnDef} from '@tanstack/react-table';
 import Link from 'next/link';
+import {MoreHorizontal} from 'lucide-react';
 
-import {getClient} from '@/graphql/ApolloClient';
-
+import {DataTable} from '@/components/DataTable';
 import {Button} from '@/components/ui/button';
 import {
   Card,
@@ -13,13 +16,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const QUERY = gql`
   query Batches {
@@ -28,6 +31,8 @@ const QUERY = gql`
       createDate
       amount
       numBars
+      status
+      labelStatus
       recipe {
         name
         lye {
@@ -53,87 +58,163 @@ const QUERY = gql`
   }
 `;
 
-export async function BatchesTable() {
-  try {
-    const {data, error} = await getClient().query({query: QUERY});
-    const costPer100 = recipe => {
-      const {baseOils, essentialOils} = recipe;
-      const baseCost = baseOils
-        .map(({ingredient, quantity}) => quantity * ingredient.costPerUnit)
-        .reduce((acc, cost) => acc + cost, 0.0);
-      const essentialCost = essentialOils
-        .map(({ingredient, quantity}) => quantity * ingredient.costPerUnit)
-        .reduce((acc, cost) => acc + cost, 0.0);
-      return baseCost + essentialCost;
-    };
-    const costPerBatch = batch => {
-      return (costPer100(batch.recipe) * batch.amount) / 100 / batch.numBars;
-    };
-    return (
-      <Card x-chunk="dashboard-05-chunk-3">
-        <CardHeader className="px-7">
-          <CardTitle>Batches</CardTitle>
-          <CardDescription className="flex justify-between">
-            <Link href="/admin/batch">
-              <Button>New Batch</Button>
-            </Link>
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead className="hidden sm:table-cell">
-                  Recipe Name
-                </TableHead>
-                <TableHead className="hidden sm:table-cell">
-                  Created Date
-                </TableHead>
-                <TableHead className="hidden sm:table-cell">
-                  Amount (g)
-                </TableHead>
-                <TableHead className="hidden sm:table-cell">
-                  Cost Per Bar($)
-                </TableHead>
-                <TableHead className="hidden sm:table-cell">Num Bars</TableHead>
-                <TableHead className="hidden md:table-cell">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.batches.map(batch => (
-                <TableRow key={batch.id}>
-                  <TableCell>
-                    <div className="font-medium">{batch.id}</div>
-                  </TableCell>
-                  <TableCell className="hidden sm:table-cell">
-                    {batch.recipe.name}
-                  </TableCell>
-                  <TableCell className="hidden sm:table-cell">
-                    {batch.createDate}
-                  </TableCell>
-                  <TableCell className="hidden sm:table-cell">
-                    {batch.amount}
-                  </TableCell>
-                  <TableCell className="hidden sm:table-cell">
-                    {costPerBatch(batch).toFixed(2)}
-                  </TableCell>
-                  <TableCell className="hidden sm:table-cell">
-                    {batch.numBars}
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    <Link href={`/admin/batch/${batch.id}`}>View</Link>
-                    <Link href={`/admin/batch/${batch.id}/edit`}>Edit</Link>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-    );
-  } catch (e) {
-    console.log(e);
-    return <div>No Data to fetch</div>;
+const UPDATE_LABEL_STATUS = gql`
+  mutation UpdateBatchLabelStatus($id: Int!, $labelStatus: String!) {
+    updateBatchLabelStatus(id: $id, labelStatus: $labelStatus) {
+      id
+      labelStatus
+    }
   }
+`;
+
+const UPDATE_STATUS = gql`
+  mutation UpdateBatchStatus($id: Int!, $status: String!) {
+    updateBatchStatus(id: $id, status: $status) {
+      id
+      status
+    }
+  }
+`;
+
+const LABEL_STATUS_OPTIONS = {
+  preparing: 'generated',
+  generated: 'printed',
+  printed: 'done',
+};
+
+const STATUS_OPTIONS = {
+  preparing: 'curing',
+  curing: 'wrapped',
+  wrapped: 'done',
+};
+
+export const columns: ColumnDef[] = [
+  {
+    accessorKey: 'id',
+    header: 'ID',
+  },
+  {
+    accessorKey: 'recipe.name',
+    header: 'Recipe Name',
+  },
+  {
+    accessorKey: 'createDate',
+    header: 'Create Date',
+  },
+  {
+    accessorKey: 'amount',
+    header: 'Amount (g)',
+  },
+  {
+    accessorKey: 'costPerBar',
+    header: 'Cost Per Bar ($)',
+  },
+  {
+    accessorKey: 'numBars',
+    header: 'Num Bars',
+  },
+  {
+    accessorKey: 'status',
+    header: 'Status',
+  },
+  {
+    accessorKey: 'labelStatus',
+    header: 'Label Status',
+  },
+  {
+    id: 'actions',
+    header: 'Actions',
+    cell: ({row}) => {
+      const batch = row.original;
+      const [updateLabelStatus, unused1] = useMutation(UPDATE_LABEL_STATUS, {
+        refetchQueries: [QUERY],
+      });
+      const [updateStatus, unused2] = useMutation(UPDATE_STATUS, {
+        refetchQueries: [QUERY],
+      });
+
+      const setLabelStatus = () => {
+        updateLabelStatus({
+          variables: {
+            id: batch.id,
+            labelStatus: LABEL_STATUS_OPTIONS[batch.labelStatus],
+          },
+        });
+      };
+      const setStatus = () => {
+        updateStatus({
+          variables: {
+            id: batch.id,
+            status: STATUS_OPTIONS[batch.status],
+          },
+        });
+      };
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Update Label Status</DropdownMenuLabel>
+            <DropdownMenuItem onClick={setLabelStatus}>
+              Set to {LABEL_STATUS_OPTIONS[batch.labelStatus]}
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Update Status</DropdownMenuLabel>
+            <DropdownMenuItem onClick={setStatus}>
+              Set to {STATUS_OPTIONS[batch.status]}
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href={`/admin/batch/${batch.id}`}>View</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/admin/batch/${batch.id}/edit`}>Edit</Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
+];
+
+export function BatchesTable() {
+  const {data} = useSuspenseQuery(QUERY);
+  const costPer100 = recipe => {
+    const {baseOils, essentialOils} = recipe;
+    const baseCost = baseOils
+      .map(({ingredient, quantity}) => quantity * ingredient.costPerUnit)
+      .reduce((acc, cost) => acc + cost, 0.0);
+    const essentialCost = essentialOils
+      .map(({ingredient, quantity}) => quantity * ingredient.costPerUnit)
+      .reduce((acc, cost) => acc + cost, 0.0);
+    return baseCost + essentialCost;
+  };
+  const costPerBatch = batch => {
+    return (costPer100(batch.recipe) * batch.amount) / 100 / batch.numBars;
+  };
+  const batches = data.batches.map(batch => ({
+    ...batch,
+    costPerBar: costPerBatch(batch).toFixed(2),
+  }));
+
+  return (
+    <Card x-chunk="dashboard-05-chunk-3">
+      <CardHeader className="px-7">
+        <CardTitle>Batches</CardTitle>
+        <CardDescription className="flex justify-between">
+          <Link href="/admin/batch">
+            <Button>New Batch</Button>
+          </Link>
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <DataTable columns={columns} data={batches} />
+      </CardContent>
+    </Card>
+  );
 }

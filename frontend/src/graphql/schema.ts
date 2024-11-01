@@ -70,6 +70,8 @@ export const typeDefs = gql`
     recipeId: Int!
     amount: Float!
     numBars: Int!
+    status: String!
+    labelStatus: String!
     batchSoapLabel: [BatchSoapLabel!]!
   }
 
@@ -152,6 +154,8 @@ export const typeDefs = gql`
     addPurchaseOrder(input: PurchaseOrderInput!): PurchaseOrder!
     addRecipe(input: RecipeInput!): Recipe!
     updateBatch(id: Int!, input: UpdateBatchInput!): Batch!
+    updateBatchLabelStatus(id: Int!, labelStatus: String!): Batch!
+    updateBatchStatus(id: Int!, status: String!): Batch!
     updateIngredient(id: Int!, input: IngredientInput!): Ingredient!
     updateInventoryItem(id: Int!, input: InventoryItemInput!): InventoryItem!
     updatePurchaseOrder(id: Int!, input: PurchaseOrderInput!): PurchaseOrder!
@@ -168,7 +172,11 @@ export const resolvers = {
     },
 
     batches: () => {
-      return prisma.batch.findMany();
+      return prisma.batch.findMany({
+        orderBy: {
+          id: 'asc',
+        },
+      });
     },
 
     ingredient: (a, {id}) => {
@@ -387,11 +395,23 @@ export const resolvers = {
     },
 
     updateBatch: (a, {id, input}) => {
-      console.log(id);
-      console.log(input);
       return prisma.batch.update({
         where: {id},
         data: input,
+      });
+    },
+
+    updateBatchLabelStatus: (a, {id, labelStatus}) => {
+      return prisma.batch.update({
+        where: {id},
+        data: {labelStatus},
+      });
+    },
+
+    updateBatchStatus: (a, {id, status}) => {
+      return prisma.batch.update({
+        where: {id},
+        data: {status},
       });
     },
 
