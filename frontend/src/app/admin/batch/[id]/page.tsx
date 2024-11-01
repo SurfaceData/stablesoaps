@@ -186,7 +186,12 @@ export async function BatchPage({params}) {
             </CardHeader>
             <CardContent>
               <div className="flex justify-center">
-                <Image src={label.imagePathSm} width="256" height="256" />
+                <Image
+                  alt={label.prompt}
+                  src={label.imagePathSm}
+                  width="256"
+                  height="256"
+                />
               </div>
             </CardContent>
           </Card>

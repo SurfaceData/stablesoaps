@@ -401,7 +401,13 @@ export const resolvers = {
       });
     },
 
-    updateBatchLabelStatus: (a, {id, labelStatus}) => {
+    updateBatchLabelStatus: async (a, {id, labelStatus}) => {
+      await prisma.batchSoapLabel.updateMany({
+        where: {batchId: id},
+        data: {
+          status: labelStatus,
+        },
+      });
       return prisma.batch.update({
         where: {id},
         data: {labelStatus},
