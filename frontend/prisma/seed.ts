@@ -94,7 +94,12 @@ async function devSeed() {
     });
 
     await db.batchSoapLabel.createMany({
-      data: labelContents,
+      data: labelContents.map(label => ({
+        ...label,
+        imagePathRg: `${process.env.IMAGE_HOST}${label.imagePathRg}`,
+        imagePathMd: `${process.env.IMAGE_HOST}${label.imagePathMd}`,
+        imagePathSm: `${process.env.IMAGE_HOST}${label.imagePathSm}`,
+      })),
     });
   } catch (error) {
     console.warn('Please define your seed data.');

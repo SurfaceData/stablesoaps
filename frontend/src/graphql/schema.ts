@@ -82,6 +82,7 @@ export const typeDefs = gql`
     imagePathRg: String!
     imagePathMd: String!
     imagePathSm: String!
+    availability: String!
 
     recipe: Recipe!
   }
@@ -254,7 +255,15 @@ export const resolvers = {
 
     recentBatchSoapLabels: (a, {limit}) => {
       return prisma.batchSoapLabel.findMany({
+        where: {
+          status: {
+            in: ['generated', 'printed', 'done'],
+          },
+        },
         take: limit || 5,
+        orderBy: {
+          createDate: 'desc',
+        },
       });
     },
 
@@ -538,6 +547,13 @@ export const resolvers = {
   },
 
   BatchSoapLabel: {
+    availability: label => {
+      if (label.status !== 'done') {
+        return label.status;
+      }
+      return 'available';
+    },
+
     recipe: async label => {
       const {recipe} = await prisma.batchSoapLabel
         .findUnique({where: {id: label.id}})

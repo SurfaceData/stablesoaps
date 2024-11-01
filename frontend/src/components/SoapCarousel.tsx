@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import {getClient} from '@/graphql/ApolloClient';
 
+import {Badge} from '@/components/ui/badge';
 import {Button} from '@/components/ui/button';
 import {
   Carousel,
@@ -27,6 +28,7 @@ const QUERY = gql`
       id
       prompt
       imagePathMd
+      availability
       recipe {
         name
       }
@@ -44,14 +46,15 @@ export async function SoapCarousel() {
             <CarouselItem key={label.id} className="pl-1 basis-1/3">
               <div className="p-1">
                 <Card>
-                  <CardContent className="flex flex-col items-center justify-center p-6">
+                  <CardContent className="flex flex-col gap-1 items-center justify-center p-6">
+                    <div>{label.recipe.name}</div>
                     <Image
                       alt={label.prompt}
                       src={label.imagePathMd}
                       width="512"
                       height="512"
                     />
-                    <div>{label.recipe.name}</div>
+                    <Badge>{label.availability}</Badge>
                   </CardContent>
                 </Card>
               </div>
